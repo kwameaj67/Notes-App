@@ -6,9 +6,17 @@
 //
 
 import UIKit
+import Combine
 
-class FolderVC: UIViewController {
-    let folders = FolderType.data
+class FolderVC: UIViewController, SaveFolderDelegate {
+   
+    private var cancellables: AnyCancellable?
+    private var folders:[Folder] = [] {
+        didSet{
+            folderTableView.reloadData()
+        }
+    }
+    private let viewModel = FolderViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "folders"
@@ -16,13 +24,42 @@ class FolderVC: UIViewController {
         configureNavBar()
         setupViews()
         setupContraints()
+        getFolderData()
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = false
+        folderTableView.reloadData()
     }
+    func getFolderData(){
+        viewModel.getFolders()
+        cancellables = viewModel.$folders.sink { data in
+            self.folders = data
+            self.folders.reverse()
+            print(self.folders.count)
+            if self.folders.count > 0 {
+                self.folderTableView.isHidden = false
+                self.folderTableView.alpha = 1
+            }
+            else {
+                self.emptyLabel.isHidden = false
+                self.emptyLabel.alpha = 1
+            }
+            
+        }
+    }
+    
     // MARK: Properties -
+    let emptyLabel: UILabel = {
+        let lb = UILabel()
+        lb.numberOfLines = 0
+        lb.isHidden = true
+        lb.alpha = 0
+        lb.textAlignment = .center
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
     let addButton: UIButton = {
         var btn = UIButton()
         let image = UIImage(systemName: "plus",withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold))
@@ -45,6 +82,8 @@ class FolderVC: UIViewController {
         tv.bounces = true
         tv.backgroundColor = Color.dark
         tv.separatorInset = UIEdgeInsets.zero
+        tv.isHidden = true
+        tv.alpha = 0
         tv.separatorColor = .clear
         tv.allowsSelection = true
         tv.allowsMultipleSelection = false
@@ -55,7 +94,10 @@ class FolderVC: UIViewController {
     func setupViews(){
         view.addSubview(folderTableView)
         view.addSubview(addButton)
+        view.addSubview(emptyLabel)
         addButton.bringSubviewToFront(folderTableView)
+        
+        emptyLabel.attributedText = setupAttributedText("Wow, such empty 😬", "You have no folders created")
     }
     func configureNavBar(){
 
@@ -72,6 +114,9 @@ class FolderVC: UIViewController {
     }
     func setupContraints(){
         NSLayoutConstraint.activate([
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             folderTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             folderTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 10),
             folderTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -10),
@@ -86,31 +131,48 @@ class FolderVC: UIViewController {
     
     @objc func createFolder(){
         let vc = AddFolderVC()
+        vc.delegate = self
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
+    func saveFolder(isSaved: Bool) {
+        if isSaved{
+            getFolderData()
+        }
+    }
+    
+    func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: UIColor.systemGray2,.font: UIFont(name: Font.semi_bold.rawValue, size: 18)!])
+        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: UIColor.systemGray2.withAlphaComponent(0.8),.font: UIFont(name: Font.medium.rawValue, size: 16)!]))
+        return text
+    }
+    
 }
 
 extension FolderVC:UITableViewDelegate {
     func numberOfSections(in tableView: UITableView) -> Int {
         return folders.count
     }
-   
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = UIView()
         view.backgroundColor = view.backgroundColor
         return view
     }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 15
     }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = folders[indexPath.section]
-        print(item.title)
+        print(item.heading)
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 210.0
+        return 205.0
     }
+    
 }
 
 extension FolderVC: UITableViewDataSource {
@@ -122,8 +184,8 @@ extension FolderVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FolderCell.reusableId, for: indexPath) as! FolderCell
         cell.setupCell(for: folders[indexPath.section])
+        cell.layer.cornerRadius = 20
         cell.selectionStyle = .none
         return cell
     }
-   
 }
