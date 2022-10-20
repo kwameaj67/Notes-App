@@ -7,29 +7,44 @@
 
 import UIKit
 
-class AddFolderVC: UIViewController, UINavigationBarDelegate {
-
+protocol SaveFolderDelegate: AnyObject {
+    func saveFolder(isSaved: Bool)
+}
+class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegate {
+    let categories = CategoryType.data
+    var delegate : SaveFolderDelegate?
+    private let viewModel = FolderViewModel()
+    private var isShowingKeyboard:Bool = false
+    private var bottomButtonConstraint = NSLayoutConstraint()
+    private var lastIndexActive: IndexPath = [1,0]
+    private var selectedCategory: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.dark
         setupViews()
         setupContraints()
-        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        folderTextField.delegate = self
+//        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        handleButtonOnKeyboardShow()
     }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavBar()
     }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        textField.becomeFirstResponder()
-        textField.selectedTextRange = textField.textRange(from: textField.beginningOfDocument, to: textField.endOfDocument)
+        folderTextField.becomeFirstResponder()
+        folderTextField.selectedTextRange = folderTextField.textRange(from: folderTextField.beginningOfDocument, to: folderTextField.endOfDocument)
     }
     // MARK: Properties -
-    let textField: UITextField = {
+    let folderTextField: UITextField = {
         var tf = NTextField()
-        tf.attributedPlaceholder = NSAttributedString(string: "Enter name of folder", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
+        tf.attributedPlaceholder = NSAttributedString(string: "Enter name of folder", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
         tf.text = "New Folder"
+        tf.backgroundColor = .systemGray3
         tf.textAlignment = .left
         tf.isHighlighted = true
         return tf
@@ -40,20 +55,68 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate {
         btn.titleLabel?.textColor = .white
         btn.setTitle("Save", for: .normal)
         btn.backgroundColor = Color.cell_dark_bg
-        btn.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(saveFolder), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
-    @objc func buttonTapped(){
-        
+    let titleLabel: UILabel = {
+        let lb = UILabel()
+        lb.numberOfLines = 0
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    lazy var categoryCollectionView: UICollectionView = {
+        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 0)
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 10
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
+        cv.setCollectionViewLayout(layout, animated: false)
+        cv.register(CategoryTypeCell.self, forCellWithReuseIdentifier: CategoryTypeCell.reusableId)
+        cv.backgroundColor = .clear
+        cv.delegate = self
+        cv.dataSource = self
+        cv.isScrollEnabled = true
+        cv.allowsSelection = true
+        cv.allowsMultipleSelection = false
+        cv.isUserInteractionEnabled = true
+        cv.bounces = true
+        cv.showsHorizontalScrollIndicator = false
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        return cv
+    }()
+    @objc func saveFolder(){
+        viewModel.addFolder(category: selectedCategory, heading: folderTextField.text!) {
+           
+        }
+        dismiss(animated: true, completion: nil)
+        delegate?.saveFolder(isSaved: true)
     }
     func setupViews(){
-        view.addSubview(textField)
+        view.addSubview(folderTextField)
         view.addSubview(saveBtn)
+        view.addSubview(titleLabel)
+        view.addSubview(categoryCollectionView)
+        
+        titleLabel.attributedText = setupAttributedText("Suggested Categories", "You'll see categories when you create a new \nfolder or a dairy")
     }
     func setupContraints(){
+        bottomButtonConstraint =  saveBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
+        bottomButtonConstraint.isActive = true
+        
         NSLayoutConstraint.activate([
-            saveBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+            
+            titleLabel.topAnchor.constraint(equalTo: folderTextField.bottomAnchor, constant: 30),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -30),
+            
+            categoryCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            categoryCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            categoryCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            categoryCollectionView.heightAnchor.constraint(equalToConstant: 195),
+            
             saveBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             saveBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             saveBtn.heightAnchor.constraint(equalToConstant: 52),
@@ -77,8 +140,8 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate {
         let navbarItem = UINavigationItem()
         navbarItem.title = "Create a folder"
         
-        let exitButton = UIButton(frame: CGRect(x: 0, y: 0, width: 16, height: 16))
-        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(weight: .bold)), for: .normal)
+        let exitButton = UIButton(frame: .zero)
+        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .bold)), for: .normal)
         exitButton.tintColor = .white
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
@@ -88,7 +151,7 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate {
         
         navbar.items = [navbarItem]
         view.addSubview(navbar)
-        self.view.frame = CGRect(x: 0, y: height, width: UIScreen.main.bounds.width, height: (UIScreen.main.bounds.height - height))
+
         
         NSLayoutConstraint.activate([
             exitButton.heightAnchor.constraint(equalToConstant: 24.0),
@@ -99,10 +162,10 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate {
             navbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             navbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            textField.topAnchor.constraint(equalTo: navbar.bottomAnchor, constant: 30),
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 50),
-            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -50),
-            textField.heightAnchor.constraint(equalToConstant: 52),
+            folderTextField.topAnchor.constraint(equalTo: navbar.bottomAnchor, constant: 30),
+            folderTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            folderTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            folderTextField.heightAnchor.constraint(equalToConstant: 52),
         ])
     }
     @objc func closeVC(){
@@ -112,5 +175,109 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate {
 
 
 extension AddFolderVC {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        isShowingKeyboard = true
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        
+        let text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+
+        if !text.isEmpty{
+            saveBtn.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.2) {
+                self.saveBtn.alpha = 1
+            }
+        } else {
+            saveBtn.isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.2) {
+                self.saveBtn.alpha = 0.6
+            }
+           
+        }
+        return true
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        saveBtn.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.2) {
+            self.saveBtn.alpha = 0.6
+        }
+        return true
+    }
     
+    // handle saveButton when keyboard shows
+    func handleButtonOnKeyboardShow(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc private func keyboardWillShow(notification: Notification){
+        if let _ = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if isShowingKeyboard{
+                self.bottomButtonConstraint.constant = -280
+            }
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutIfNeeded()
+            }
+        }
+
+    }
+    @objc private func keyboardWillHide(notification: Notification){
+        if let _ = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if isShowingKeyboard{
+                self.bottomButtonConstraint.constant = -20
+            }
+            UIView.animate(withDuration: 0.5,animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+          
+        }
+    }
+}
+
+extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return categories.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryTypeCell.reusableId, for: indexPath) as! CategoryTypeCell
+        cell.setupCell(for: categories[indexPath.row])
+//        if indexPath.row == 1 {
+//                lastIndexActive = indexPath
+//                cell.isSelected = true
+//        }
+//        cell.isSelected = (lastIndexActive == indexPath)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let item = categories[indexPath.row]
+        let itemSize = item.title.size(withAttributes: [NSAttributedString.Key.font:UIFont(name: Font.medium.rawValue, size: 14)!])
+        return CGSize(width: itemSize.width, height: 40)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 10
+    }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.scrollToItem(at: IndexPath(item: indexPath.row, section: 0), at: [.centeredHorizontally,.centeredVertically], animated: true)
+        collectionView.layoutSubviews()
+        let item = categories[indexPath.row]
+        selectedCategory = item.title
+        print(item.title)
+
+    }
+    func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: UIColor.white,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
+        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: UIColor.systemGray2,.font: UIFont(name: Font.semi_bold.rawValue, size: 14)!]))
+        return text
+    }
 }
