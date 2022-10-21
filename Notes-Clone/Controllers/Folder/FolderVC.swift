@@ -14,6 +14,14 @@ class FolderVC: UIViewController, SaveFolderDelegate {
     private var folders:[Folder] = [] {
         didSet{
             folderTableView.reloadData()
+            if folders.count > 0 {
+                folderTableView.isHidden = false
+                folderTableView.alpha = 1
+            }
+            else {
+                emptyLabel.isHidden = false
+                emptyLabel.alpha = 1
+            }
         }
     }
     private let viewModel = FolderViewModel()
@@ -21,14 +29,17 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         super.viewDidLoad()
         title = "folders"
         view.backgroundColor = Color.dark
-        configureNavBar()
+       
         setupViews()
         setupContraints()
         getFolderData()
+        configureBackButton()
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configureNavBar()
+        title = "folders"
         navigationController?.navigationBar.isHidden = false
         folderTableView.reloadData()
     }
@@ -38,15 +49,6 @@ class FolderVC: UIViewController, SaveFolderDelegate {
             self.folders = data
             self.folders.reverse()
             print(self.folders.count)
-            if self.folders.count > 0 {
-                self.folderTableView.isHidden = false
-                self.folderTableView.alpha = 1
-            }
-            else {
-                self.emptyLabel.isHidden = false
-                self.emptyLabel.alpha = 1
-            }
-            
         }
     }
     
@@ -61,13 +63,7 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         return lb
     }()
     let addButton: UIButton = {
-        var btn = UIButton()
-        let image = UIImage(systemName: "plus",withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold))
-        btn.setImage(image, for: .normal)
-        btn.tintColor = .white
-        btn.titleLabel?.font = UIFont(name: "", size: 16)
-        btn.backgroundColor = Color.red
-        btn.layer.cornerRadius = 20
+        var btn = AddFloatingButton()
         btn.addTarget(self, action: #selector(createFolder), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -99,19 +95,7 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         
         emptyLabel.attributedText = setupAttributedText("Wow, such empty 😬", "You have no folders created")
     }
-    func configureNavBar(){
-
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 22.0)!,NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 36.0)!,NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationItem.largeTitleDisplayMode = .always
-        navigationController?.navigationBar.largeContentTitle = "folders"
-        
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-    }
+  
     func setupContraints(){
         NSLayoutConstraint.activate([
             emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -146,7 +130,7 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: UIColor.systemGray2.withAlphaComponent(0.8),.font: UIFont(name: Font.medium.rawValue, size: 16)!]))
         return text
     }
-    
+  
 }
 
 extension FolderVC:UITableViewDelegate {
@@ -166,7 +150,9 @@ extension FolderVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = folders[indexPath.section]
-        print(item.heading)
+        let vc = NotesVC()
+        vc.folderTitle = item.heading ?? "No title"
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -187,5 +173,29 @@ extension FolderVC: UITableViewDataSource {
         cell.layer.cornerRadius = 20
         cell.selectionStyle = .none
         return cell
+    }
+}
+
+extension FolderVC {
+    func configureNavBar(){
+
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 20.0)!,NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .always
+        self.navigationController?.navigationBar.largeContentTitle = "folders"
+        
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+    }
+    
+    func configureBackButton(){
+        let backImage =  UIImage(systemName: "arrow.left",withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium))
+        navigationController?.navigationBar.backIndicatorImage = backImage
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: .none, action: .none)
+        navigationController?.navigationBar.tintColor = Color.dark
     }
 }

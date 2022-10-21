@@ -15,11 +15,13 @@ class FolderCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: FolderCell.reusableId)
         setupViews()
         setupContraints()
-        layer.cornerRadius = 20
-        layer.masksToBounds = true
         backgroundColor = Color.cell_dark_bg
     }
-    
+//    override func layoutSubviews() {
+//        super.layoutSubviews()
+//        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
+//     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -28,22 +30,30 @@ class FolderCell: UITableViewCell {
     let titleLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 16)
-        lb.textColor = Color.grey
+        lb.textColor = .systemGray2
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     let countLabel: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont(name: Font.semi_bold.rawValue, size: 66)
+        lb.font = UIFont(name: Font.semi_bold.rawValue, size: 26)
         lb.textColor = .white
+        lb.numberOfLines = 0
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    let dateLabel: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont(name: Font.medium.rawValue, size: 14)
+        lb.textColor = .systemGray2
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     let arrowImage : UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(systemName: "chevron.right",withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold))
+        iv.image = UIImage(systemName: "chevron.right",withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold))
         iv.tintColor = .white
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -51,14 +61,22 @@ class FolderCell: UITableViewCell {
         return iv
     }()
     
-    func setupCell(for item: FolderType){
-        titleLabel.text = item.title.lowercased()
-        countLabel.text = "\(item.totalCount)"
+    
+    func setupCell(for item: Folder){
+        guard let heading = item.heading else { return }
+        guard let noteCount = item.notes?.count else { return }
+        guard let date = item.createdAt else { return }
+        
+        titleLabel.text = heading
+        countLabel.text = "\(noteCount)"
+        dateLabel.text = "\(date.timeAgoDisplay())"
+
     }
     func setupViews(){
         contentView.addSubview(titleLabel)
         contentView.addSubview(countLabel)
         contentView.addSubview(arrowImage)
+        contentView.addSubview(dateLabel)
     }
     func setupContraints(){
         NSLayoutConstraint.activate([
@@ -72,9 +90,9 @@ class FolderCell: UITableViewCell {
             
             countLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
             countLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            countLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
-    }
-    
-    
+    }  
 }

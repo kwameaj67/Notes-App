@@ -22,13 +22,21 @@ class NotesVC: UIViewController {
         view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
+        configureBackButton()
        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavBar()
+       
     }
     // MARK: Properties -
+    let addButton: UIButton = {
+        var btn = AddFloatingButton()
+        btn.addTarget(self, action: #selector(createNote), for: .touchUpInside)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        return btn
+    }()
     lazy var notesCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout.init())
         cv.register(NoteCollectionCell.self, forCellWithReuseIdentifier: NoteCollectionCell.reusableId)
@@ -37,32 +45,32 @@ class NotesVC: UIViewController {
         cv.isScrollEnabled = true
         cv.bounces = true
         cv.backgroundColor = .clear
-        cv.showsVerticalScrollIndicator = true
+        cv.showsVerticalScrollIndicator = false
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
+    @objc func createNote(){
+        let vc = NoteDetailsVC()
+//        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
+    }
     func setupViews(){
         view.addSubview(notesCollectionView)
+        view.addSubview(addButton)
         configureCompositionalLayout()
     }
-    func configureNavBar(){
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 16.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationItem.largeTitleDisplayMode = .always
-      
-        
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
-    }
+   
     func setupContraints(){
         NSLayoutConstraint.activate([
             notesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             notesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 4),
             notesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -4),
-            notesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            notesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
+            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            addButton.heightAnchor.constraint(equalToConstant: 90),
+            addButton.widthAnchor.constraint(equalToConstant: 90),
         ])
     }
     func configureCompositionalLayout(){
@@ -117,3 +125,36 @@ extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     
 }
 
+extension NotesVC {
+    func configureNavBar(){
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 16.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .always
+             
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+        
+        let searchBtn = UIButton(type: .system)
+        let image = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate).withConfiguration(UIImage.SymbolConfiguration(weight: .medium))
+        searchBtn.setImage(image, for: .normal)
+        searchBtn.tintColor = Color.dark
+        searchBtn.adjustsImageWhenHighlighted = false
+        searchBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 20)
+        searchBtn.backgroundColor = .clear
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBtn)
+        
+        let rightBarItem = UIBarButtonItem()
+        rightBarItem.customView = searchBtn
+        navigationItem.setRightBarButtonItems([rightBarItem], animated: true)
+    }
+    
+    func configureBackButton(){
+        let backImage =  UIImage(systemName: "arrow.left",withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .medium))
+        navigationController?.navigationBar.backIndicatorImage = backImage
+        navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: .none, action: .none)
+        navigationController?.navigationBar.tintColor = Color.dark
+    }
+}

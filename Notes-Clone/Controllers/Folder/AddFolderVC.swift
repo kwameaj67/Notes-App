@@ -245,11 +245,6 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryTypeCell.reusableId, for: indexPath) as! CategoryTypeCell
         cell.setupCell(for: categories[indexPath.row])
-//        if indexPath.row == 1 {
-//                lastIndexActive = indexPath
-//                cell.isSelected = true
-//        }
-//        cell.isSelected = (lastIndexActive == indexPath)
         return cell
     }
     

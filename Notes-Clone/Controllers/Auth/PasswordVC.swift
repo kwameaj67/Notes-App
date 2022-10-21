@@ -132,7 +132,6 @@ class PasswordVC: UIViewController {
         view.addSubview(numPadCollectionView)
         view.addSubview(stackView)
         view.addSubview(doneButton)
-       
         for item in [image1,image2,image3,image4]{
             stackView.addArrangedSubview(item)
         }
