@@ -7,23 +7,91 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9832040C28F59E1800B24A50 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832040B28F59E1800B24A50 /* MockData.swift */; };
+		9832040F28F59F1300B24A50 /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832040E28F59F1300B24A50 /* FolderCell.swift */; };
+		9832041628F701C000B24A50 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832041528F701C000B24A50 /* CoreDataManager.swift */; };
+		9832041928F70F0700B24A50 /* MyApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 9832041728F70F0700B24A50 /* MyApp.xcdatamodeld */; };
+		9832043E28F71BBD00B24A50 /* Note+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832043A28F71BBD00B24A50 /* Note+CoreDataClass.swift */; };
+		9832043F28F71BBD00B24A50 /* Note+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832043B28F71BBD00B24A50 /* Note+CoreDataProperties.swift */; };
+		9832044028F71BBD00B24A50 /* Folder+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832043C28F71BBD00B24A50 /* Folder+CoreDataClass.swift */; };
+		9832044128F71BBD00B24A50 /* Folder+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832043D28F71BBD00B24A50 /* Folder+CoreDataProperties.swift */; };
+		9832044328F82B0600B24A50 /* FolderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044228F82B0600B24A50 /* FolderService.swift */; };
+		9832044628F82E9D00B24A50 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044528F82E9D00B24A50 /* Date+Ext.swift */; };
+		9832044828F830DF00B24A50 /* FolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044728F830DF00B24A50 /* FolderViewModel.swift */; };
+		987C271B2902BF2100A19A97 /* AddFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271A2902BF2100A19A97 /* AddFloatingButton.swift */; };
+		989A93BD28F98077007C0979 /* NoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989A93BC28F98077007C0979 /* NoteService.swift */; };
+		989A93BF28F98535007C0979 /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989A93BE28F98535007C0979 /* NoteViewModel.swift */; };
+		98BEA9DE28F89B87001E81A4 /* CategoryTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BEA9DD28F89B87001E81A4 /* CategoryTypeCell.swift */; };
 		98C29D4328F2E9460054F286 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D4228F2E9460054F286 /* AppDelegate.swift */; };
 		98C29D4528F2E9460054F286 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D4428F2E9460054F286 /* SceneDelegate.swift */; };
-		98C29D4728F2E9460054F286 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D4628F2E9460054F286 /* ViewController.swift */; };
-		98C29D4A28F2E9460054F286 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D4828F2E9460054F286 /* Main.storyboard */; };
+		98C29D4728F2E9460054F286 /* FolderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D4628F2E9460054F286 /* FolderVC.swift */; };
 		98C29D4C28F2E94A0054F286 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D4B28F2E94A0054F286 /* Assets.xcassets */; };
 		98C29D4F28F2E94A0054F286 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D4D28F2E94A0054F286 /* LaunchScreen.storyboard */; };
+		98C29D5C28F2EA0B0054F286 /* UIView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D5B28F2EA0B0054F286 /* UIView+Ext.swift */; };
+		98C29D5E28F2EA300054F286 /* AddFolderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D5D28F2EA300054F286 /* AddFolderVC.swift */; };
+		98C29D6028F2EA5C0054F286 /* NotesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D5F28F2EA5C0054F286 /* NotesVC.swift */; };
+		98C29D6228F2EA790054F286 /* NoteDetailsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D6128F2EA790054F286 /* NoteDetailsVC.swift */; };
+		98C29D6828F2EB640054F286 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D6728F2EB640054F286 /* Font.swift */; };
+		98C29D6A28F2EB6E0054F286 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D6928F2EB6E0054F286 /* Color.swift */; };
+		98C29D7128F2EBBB0054F286 /* EuclidCircularB_Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D6C28F2EBBA0054F286 /* EuclidCircularB_Bold.ttf */; };
+		98C29D7228F2EBBB0054F286 /* EuclidCircularB_SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D6D28F2EBBA0054F286 /* EuclidCircularB_SemiBold.ttf */; };
+		98C29D7328F2EBBB0054F286 /* EuclidCircularB_Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D6E28F2EBBB0054F286 /* EuclidCircularB_Light.ttf */; };
+		98C29D7428F2EBBB0054F286 /* EuclidCircularB_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D6F28F2EBBB0054F286 /* EuclidCircularB_Regular.ttf */; };
+		98C29D7528F2EBBB0054F286 /* EuclidCircularB_Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 98C29D7028F2EBBB0054F286 /* EuclidCircularB_Medium.ttf */; };
+		98C29D7828F2EE3A0054F286 /* PasswordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D7728F2EE3A0054F286 /* PasswordVC.swift */; };
+		98C29D7A28F2EFAE0054F286 /* NameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D7928F2EFAE0054F286 /* NameVC.swift */; };
+		98C29D7E28F2F9D70054F286 /* NTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D7D28F2F9D70054F286 /* NTextField.swift */; };
+		98C29D8028F41B830054F286 /* NButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D7F28F41B830054F286 /* NButton.swift */; };
+		98C29D8228F41DA70054F286 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D8128F41DA70054F286 /* UILabel+Ext.swift */; };
+		98C29D8628F43AB30054F286 /* NumberPadCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D8528F43AB30054F286 /* NumberPadCell.swift */; };
+		98C29D8928F43B130054F286 /* NumberPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D8828F43B130054F286 /* NumberPad.swift */; };
+		98C29D8B28F490F60054F286 /* PinImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D8A28F490F60054F286 /* PinImage.swift */; };
+		98D50C782901AAA400674DAE /* NoteCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D50C772901AAA400674DAE /* NoteCollectionCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9832040B28F59E1800B24A50 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		9832040E28F59F1300B24A50 /* FolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCell.swift; sourceTree = "<group>"; };
+		9832041528F701C000B24A50 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		9832041828F70F0700B24A50 /* MyApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MyApp.xcdatamodel; sourceTree = "<group>"; };
+		9832043A28F71BBD00B24A50 /* Note+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataClass.swift"; sourceTree = "<group>"; };
+		9832043B28F71BBD00B24A50 /* Note+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Note+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9832043C28F71BBD00B24A50 /* Folder+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+CoreDataClass.swift"; sourceTree = "<group>"; };
+		9832043D28F71BBD00B24A50 /* Folder+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Folder+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		9832044228F82B0600B24A50 /* FolderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderService.swift; sourceTree = "<group>"; };
+		9832044528F82E9D00B24A50 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
+		9832044728F830DF00B24A50 /* FolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewModel.swift; sourceTree = "<group>"; };
+		987C271A2902BF2100A19A97 /* AddFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFloatingButton.swift; sourceTree = "<group>"; };
+		989A93BC28F98077007C0979 /* NoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteService.swift; sourceTree = "<group>"; };
+		989A93BE28F98535007C0979 /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
+		98BEA9DD28F89B87001E81A4 /* CategoryTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTypeCell.swift; sourceTree = "<group>"; };
 		98C29D3F28F2E9460054F286 /* Notes-Clone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Notes-Clone.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		98C29D4228F2E9460054F286 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		98C29D4428F2E9460054F286 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		98C29D4628F2E9460054F286 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		98C29D4928F2E9460054F286 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		98C29D4628F2E9460054F286 /* FolderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderVC.swift; sourceTree = "<group>"; };
 		98C29D4B28F2E94A0054F286 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		98C29D4E28F2E94A0054F286 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		98C29D5028F2E94A0054F286 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		98C29D5B28F2EA0B0054F286 /* UIView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Ext.swift"; sourceTree = "<group>"; };
+		98C29D5D28F2EA300054F286 /* AddFolderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolderVC.swift; sourceTree = "<group>"; };
+		98C29D5F28F2EA5C0054F286 /* NotesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotesVC.swift; sourceTree = "<group>"; };
+		98C29D6128F2EA790054F286 /* NoteDetailsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteDetailsVC.swift; sourceTree = "<group>"; };
+		98C29D6728F2EB640054F286 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		98C29D6928F2EB6E0054F286 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		98C29D6C28F2EBBA0054F286 /* EuclidCircularB_Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EuclidCircularB_Bold.ttf; sourceTree = "<group>"; };
+		98C29D6D28F2EBBA0054F286 /* EuclidCircularB_SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EuclidCircularB_SemiBold.ttf; sourceTree = "<group>"; };
+		98C29D6E28F2EBBB0054F286 /* EuclidCircularB_Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EuclidCircularB_Light.ttf; sourceTree = "<group>"; };
+		98C29D6F28F2EBBB0054F286 /* EuclidCircularB_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EuclidCircularB_Regular.ttf; sourceTree = "<group>"; };
+		98C29D7028F2EBBB0054F286 /* EuclidCircularB_Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EuclidCircularB_Medium.ttf; sourceTree = "<group>"; };
+		98C29D7728F2EE3A0054F286 /* PasswordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordVC.swift; sourceTree = "<group>"; };
+		98C29D7928F2EFAE0054F286 /* NameVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameVC.swift; sourceTree = "<group>"; };
+		98C29D7D28F2F9D70054F286 /* NTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NTextField.swift; sourceTree = "<group>"; };
+		98C29D7F28F41B830054F286 /* NButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NButton.swift; sourceTree = "<group>"; };
+		98C29D8128F41DA70054F286 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
+		98C29D8528F43AB30054F286 /* NumberPadCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPadCell.swift; sourceTree = "<group>"; };
+		98C29D8828F43B130054F286 /* NumberPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPad.swift; sourceTree = "<group>"; };
+		98C29D8A28F490F60054F286 /* PinImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinImage.swift; sourceTree = "<group>"; };
+		98D50C772901AAA400674DAE /* NoteCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCollectionCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +105,44 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9832040D28F59EFB00B24A50 /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				9832040E28F59F1300B24A50 /* FolderCell.swift */,
+				98BEA9DD28F89B87001E81A4 /* CategoryTypeCell.swift */,
+				98D50C772901AAA400674DAE /* NoteCollectionCell.swift */,
+			);
+			path = Folder;
+			sourceTree = "<group>";
+		};
+		9832041328F6D79C00B24A50 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D8528F43AB30054F286 /* NumberPadCell.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		9832041428F6D98300B24A50 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9832041528F701C000B24A50 /* CoreDataManager.swift */,
+				9832044228F82B0600B24A50 /* FolderService.swift */,
+				989A93BC28F98077007C0979 /* NoteService.swift */,
+			);
+			name = Manager;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		9832044428F82E6400B24A50 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				9832044728F830DF00B24A50 /* FolderViewModel.swift */,
+				989A93BE28F98535007C0979 /* NoteViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		98C29D3628F2E9450054F286 = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +162,124 @@
 		98C29D4128F2E9460054F286 /* Notes-Clone */ = {
 			isa = PBXGroup;
 			children = (
+				9832044428F82E6400B24A50 /* ViewModel */,
+				9832041428F6D98300B24A50 /* Manager */,
+				98C29D8728F43B040054F286 /* Models */,
+				98C29D6B28F2EBA30054F286 /* Fonts */,
+				98C29D5A28F2E9F70054F286 /* Extensions */,
+				98C29D5928F2E9E10054F286 /* Constants */,
+				98C29D5828F2E9D90054F286 /* Cells */,
+				98C29D5728F2E9D50054F286 /* Views */,
+				98C29D5628F2E9CF0054F286 /* Controllers */,
 				98C29D4228F2E9460054F286 /* AppDelegate.swift */,
 				98C29D4428F2E9460054F286 /* SceneDelegate.swift */,
-				98C29D4628F2E9460054F286 /* ViewController.swift */,
-				98C29D4828F2E9460054F286 /* Main.storyboard */,
 				98C29D4B28F2E94A0054F286 /* Assets.xcassets */,
 				98C29D4D28F2E94A0054F286 /* LaunchScreen.storyboard */,
 				98C29D5028F2E94A0054F286 /* Info.plist */,
 			);
 			path = "Notes-Clone";
+			sourceTree = "<group>";
+		};
+		98C29D5628F2E9CF0054F286 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D7628F2EE240054F286 /* Auth */,
+				98C29D6428F2EA870054F286 /* Note */,
+				98C29D6328F2EA820054F286 /* Folder */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		98C29D5728F2E9D50054F286 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D7D28F2F9D70054F286 /* NTextField.swift */,
+				98C29D7F28F41B830054F286 /* NButton.swift */,
+				98C29D8A28F490F60054F286 /* PinImage.swift */,
+				987C271A2902BF2100A19A97 /* AddFloatingButton.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		98C29D5828F2E9D90054F286 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9832041328F6D79C00B24A50 /* Auth */,
+				9832040D28F59EFB00B24A50 /* Folder */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		98C29D5928F2E9E10054F286 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D6728F2EB640054F286 /* Font.swift */,
+				98C29D6928F2EB6E0054F286 /* Color.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		98C29D5A28F2E9F70054F286 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D5B28F2EA0B0054F286 /* UIView+Ext.swift */,
+				98C29D8128F41DA70054F286 /* UILabel+Ext.swift */,
+				9832044528F82E9D00B24A50 /* Date+Ext.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		98C29D6328F2EA820054F286 /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D4628F2E9460054F286 /* FolderVC.swift */,
+				98C29D5D28F2EA300054F286 /* AddFolderVC.swift */,
+			);
+			path = Folder;
+			sourceTree = "<group>";
+		};
+		98C29D6428F2EA870054F286 /* Note */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D5F28F2EA5C0054F286 /* NotesVC.swift */,
+				98C29D6128F2EA790054F286 /* NoteDetailsVC.swift */,
+			);
+			path = Note;
+			sourceTree = "<group>";
+		};
+		98C29D6B28F2EBA30054F286 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D6C28F2EBBA0054F286 /* EuclidCircularB_Bold.ttf */,
+				98C29D6E28F2EBBB0054F286 /* EuclidCircularB_Light.ttf */,
+				98C29D7028F2EBBB0054F286 /* EuclidCircularB_Medium.ttf */,
+				98C29D6F28F2EBBB0054F286 /* EuclidCircularB_Regular.ttf */,
+				98C29D6D28F2EBBA0054F286 /* EuclidCircularB_SemiBold.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+		98C29D7628F2EE240054F286 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D7728F2EE3A0054F286 /* PasswordVC.swift */,
+				98C29D7928F2EFAE0054F286 /* NameVC.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		98C29D8728F43B040054F286 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				98C29D8828F43B130054F286 /* NumberPad.swift */,
+				9832040B28F59E1800B24A50 /* MockData.swift */,
+				9832041728F70F0700B24A50 /* MyApp.xcdatamodeld */,
+				9832043A28F71BBD00B24A50 /* Note+CoreDataClass.swift */,
+				9832043B28F71BBD00B24A50 /* Note+CoreDataProperties.swift */,
+				9832043C28F71BBD00B24A50 /* Folder+CoreDataClass.swift */,
+				9832043D28F71BBD00B24A50 /* Folder+CoreDataProperties.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,8 +340,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				98C29D4F28F2E94A0054F286 /* LaunchScreen.storyboard in Resources */,
+				98C29D7328F2EBBB0054F286 /* EuclidCircularB_Light.ttf in Resources */,
+				98C29D7528F2EBBB0054F286 /* EuclidCircularB_Medium.ttf in Resources */,
+				98C29D7128F2EBBB0054F286 /* EuclidCircularB_Bold.ttf in Resources */,
+				98C29D7428F2EBBB0054F286 /* EuclidCircularB_Regular.ttf in Resources */,
 				98C29D4C28F2E94A0054F286 /* Assets.xcassets in Resources */,
-				98C29D4A28F2E9460054F286 /* Main.storyboard in Resources */,
+				98C29D7228F2EBBB0054F286 /* EuclidCircularB_SemiBold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,23 +356,45 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				98C29D4728F2E9460054F286 /* ViewController.swift in Sources */,
+				98C29D7E28F2F9D70054F286 /* NTextField.swift in Sources */,
+				9832044828F830DF00B24A50 /* FolderViewModel.swift in Sources */,
+				98C29D7A28F2EFAE0054F286 /* NameVC.swift in Sources */,
+				98C29D6228F2EA790054F286 /* NoteDetailsVC.swift in Sources */,
+				98C29D5C28F2EA0B0054F286 /* UIView+Ext.swift in Sources */,
+				98C29D8228F41DA70054F286 /* UILabel+Ext.swift in Sources */,
+				98C29D8028F41B830054F286 /* NButton.swift in Sources */,
+				987C271B2902BF2100A19A97 /* AddFloatingButton.swift in Sources */,
+				9832044128F71BBD00B24A50 /* Folder+CoreDataProperties.swift in Sources */,
+				98C29D7828F2EE3A0054F286 /* PasswordVC.swift in Sources */,
+				9832040C28F59E1800B24A50 /* MockData.swift in Sources */,
+				98C29D6A28F2EB6E0054F286 /* Color.swift in Sources */,
+				98C29D4728F2E9460054F286 /* FolderVC.swift in Sources */,
+				9832043E28F71BBD00B24A50 /* Note+CoreDataClass.swift in Sources */,
+				9832044328F82B0600B24A50 /* FolderService.swift in Sources */,
+				9832040F28F59F1300B24A50 /* FolderCell.swift in Sources */,
+				989A93BF28F98535007C0979 /* NoteViewModel.swift in Sources */,
+				9832041628F701C000B24A50 /* CoreDataManager.swift in Sources */,
+				98D50C782901AAA400674DAE /* NoteCollectionCell.swift in Sources */,
 				98C29D4328F2E9460054F286 /* AppDelegate.swift in Sources */,
+				98C29D8928F43B130054F286 /* NumberPad.swift in Sources */,
+				98C29D6828F2EB640054F286 /* Font.swift in Sources */,
+				9832044628F82E9D00B24A50 /* Date+Ext.swift in Sources */,
+				9832043F28F71BBD00B24A50 /* Note+CoreDataProperties.swift in Sources */,
+				98C29D8B28F490F60054F286 /* PinImage.swift in Sources */,
+				98C29D8628F43AB30054F286 /* NumberPadCell.swift in Sources */,
 				98C29D4528F2E9460054F286 /* SceneDelegate.swift in Sources */,
+				9832041928F70F0700B24A50 /* MyApp.xcdatamodeld in Sources */,
+				989A93BD28F98077007C0979 /* NoteService.swift in Sources */,
+				9832044028F71BBD00B24A50 /* Folder+CoreDataClass.swift in Sources */,
+				98C29D6028F2EA5C0054F286 /* NotesVC.swift in Sources */,
+				98C29D5E28F2EA300054F286 /* AddFolderVC.swift in Sources */,
+				98BEA9DE28F89B87001E81A4 /* CategoryTypeCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		98C29D4828F2E9460054F286 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				98C29D4928F2E9460054F286 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		98C29D4D28F2E94A0054F286 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -289,6 +530,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 445LZL99JS;
 				INFOPLIST_FILE = "Notes-Clone/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,7 +538,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Projects.Notes-Clone";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -308,6 +550,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 445LZL99JS;
 				INFOPLIST_FILE = "Notes-Clone/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -315,7 +558,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Projects.Notes-Clone";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -341,6 +584,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		9832041728F70F0700B24A50 /* MyApp.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				9832041828F70F0700B24A50 /* MyApp.xcdatamodel */,
+			);
+			currentVersion = 9832041828F70F0700B24A50 /* MyApp.xcdatamodel */;
+			path = MyApp.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 98C29D3728F2E9450054F286 /* Project object */;
 }
