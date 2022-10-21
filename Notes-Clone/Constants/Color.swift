@@ -15,4 +15,12 @@ struct Color {
     static let bg = UIColor(red: 0.99, green: 0.99, blue: 0.99, alpha: 1.00)
     static let pad_bg = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.00)
     static let cell_dark_bg = UIColor(red: 0.14, green: 0.15, blue: 0.17, alpha: 1.00)
+    
+    static let pale_blue = UIColor(red: 0.78, green: 0.90, blue: 0.99, alpha: 1.00)
+    static let pale_green = UIColor(red: 0.78, green: 0.99, blue: 0.87, alpha: 1.00)
+    static let pale_yellow = UIColor(red: 0.99, green: 0.99, blue: 0.78, alpha: 1.00)
+    static let pale_orange = UIColor(red: 0.99, green: 0.74, blue: 0.64, alpha: 1.00)
+    static let pale_red = UIColor(red: 0.99, green: 0.64, blue: 0.71, alpha: 1.00)
+    static let pale_purple = UIColor(red: 0.88, green: 0.64, blue: 0.99, alpha: 1.00)
+    static let pale_violet = UIColor(red: 0.84, green: 0.64, blue: 0.99, alpha: 1.00)
 }
