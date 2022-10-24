@@ -29,7 +29,7 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         super.viewDidLoad()
         title = "folders"
         view.backgroundColor = Color.dark
-       
+        configureNavBar()
         setupViews()
         setupContraints()
         getFolderData()

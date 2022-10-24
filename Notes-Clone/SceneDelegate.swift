@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window =  UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
         
-        if userDefaults.bool(forKey: "isLoggedIn"){
+        if !userDefaults.bool(forKey: "isLoggedIn"){
             window?.rootViewController = UINavigationController(rootViewController: FolderVC())
         }else{
             window?.rootViewController = UINavigationController(rootViewController: NameVC())

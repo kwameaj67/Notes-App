@@ -13,10 +13,10 @@ protocol SaveFolderDelegate: AnyObject {
 class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegate {
     let categories = CategoryType.data
     var delegate : SaveFolderDelegate?
+    
     private let viewModel = FolderViewModel()
     private var isShowingKeyboard:Bool = false
     private var bottomButtonConstraint = NSLayoutConstraint()
-    private var lastIndexActive: IndexPath = [1,0]
     private var selectedCategory: String = ""
     
     override func viewDidLoad() {

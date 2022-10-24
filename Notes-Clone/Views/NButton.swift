@@ -16,6 +16,7 @@ class NButton: UIButton {
         layer.cornerRadius = self.frame.height/2
         layer.masksToBounds = false
         setTitleColor(.white, for: .normal)
+        adjustsImageWhenHighlighted = false
         titleLabel?.font = UIFont(name: Font.semi_bold.rawValue, size: 16)
         translatesAutoresizingMaskIntoConstraints = false
     }

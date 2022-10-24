@@ -19,6 +19,8 @@
 		9832044628F82E9D00B24A50 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044528F82E9D00B24A50 /* Date+Ext.swift */; };
 		9832044828F830DF00B24A50 /* FolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044728F830DF00B24A50 /* FolderViewModel.swift */; };
 		987C271B2902BF2100A19A97 /* AddFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271A2902BF2100A19A97 /* AddFloatingButton.swift */; };
+		987C271D2906B54200A19A97 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271C2906B54200A19A97 /* UserDefaultsManager.swift */; };
+		987C271F2906B72200A19A97 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271E2906B72200A19A97 /* String+Ext.swift */; };
 		989A93BD28F98077007C0979 /* NoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989A93BC28F98077007C0979 /* NoteService.swift */; };
 		989A93BF28F98535007C0979 /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989A93BE28F98535007C0979 /* NoteViewModel.swift */; };
 		98BEA9DE28F89B87001E81A4 /* CategoryTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BEA9DD28F89B87001E81A4 /* CategoryTypeCell.swift */; };
@@ -62,6 +64,8 @@
 		9832044528F82E9D00B24A50 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		9832044728F830DF00B24A50 /* FolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewModel.swift; sourceTree = "<group>"; };
 		987C271A2902BF2100A19A97 /* AddFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFloatingButton.swift; sourceTree = "<group>"; };
+		987C271C2906B54200A19A97 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
+		987C271E2906B72200A19A97 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		989A93BC28F98077007C0979 /* NoteService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteService.swift; sourceTree = "<group>"; };
 		989A93BE28F98535007C0979 /* NoteViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteViewModel.swift; sourceTree = "<group>"; };
 		98BEA9DD28F89B87001E81A4 /* CategoryTypeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTypeCell.swift; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 				9832041528F701C000B24A50 /* CoreDataManager.swift */,
 				9832044228F82B0600B24A50 /* FolderService.swift */,
 				989A93BC28F98077007C0979 /* NoteService.swift */,
+				987C271C2906B54200A19A97 /* UserDefaultsManager.swift */,
 			);
 			name = Manager;
 			path = "New Group";
@@ -225,6 +230,7 @@
 				98C29D5B28F2EA0B0054F286 /* UIView+Ext.swift */,
 				98C29D8128F41DA70054F286 /* UILabel+Ext.swift */,
 				9832044528F82E9D00B24A50 /* Date+Ext.swift */,
+				987C271E2906B72200A19A97 /* String+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -358,11 +364,13 @@
 			files = (
 				98C29D7E28F2F9D70054F286 /* NTextField.swift in Sources */,
 				9832044828F830DF00B24A50 /* FolderViewModel.swift in Sources */,
+				987C271D2906B54200A19A97 /* UserDefaultsManager.swift in Sources */,
 				98C29D7A28F2EFAE0054F286 /* NameVC.swift in Sources */,
 				98C29D6228F2EA790054F286 /* NoteDetailsVC.swift in Sources */,
 				98C29D5C28F2EA0B0054F286 /* UIView+Ext.swift in Sources */,
 				98C29D8228F41DA70054F286 /* UILabel+Ext.swift in Sources */,
 				98C29D8028F41B830054F286 /* NButton.swift in Sources */,
+				987C271F2906B72200A19A97 /* String+Ext.swift in Sources */,
 				987C271B2902BF2100A19A97 /* AddFloatingButton.swift in Sources */,
 				9832044128F71BBD00B24A50 /* Folder+CoreDataProperties.swift in Sources */,
 				98C29D7828F2EE3A0054F286 /* PasswordVC.swift in Sources */,

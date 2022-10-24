@@ -66,7 +66,7 @@ class NumberPadCell: UICollectionViewCell {
             label.text = text
         }
         if let imageName = item.image {
-            iconImage.image = UIImage(systemName: imageName,withConfiguration: UIImage.SymbolConfiguration(pointSize: 15, weight: .medium))
+            iconImage.image = UIImage(systemName: imageName,withConfiguration: UIImage.SymbolConfiguration(pointSize: 14, weight: .medium))
             iconImage.isHidden = false
             iconImage.alpha = 1
             
