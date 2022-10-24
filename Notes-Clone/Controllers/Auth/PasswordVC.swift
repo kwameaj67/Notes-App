@@ -9,6 +9,7 @@ import UIKit
 
 class PasswordVC: UIViewController {
 
+    let userDefaultManager = UserDefaultsManager.shared
     let numberPadData = NumberPad.data
     var limitCount: Int = 0
     private var passCode: String = "" {
@@ -21,6 +22,7 @@ class PasswordVC: UIViewController {
         view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
+        getFullNameInitials()
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -48,7 +50,7 @@ class PasswordVC: UIViewController {
     }()
     let avatarView: UIView = {
         let v = UIView()
-        v.layer.cornerRadius = 60/2
+        v.layer.cornerRadius = 50/2
         v.backgroundColor = Color.dark
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -59,7 +61,6 @@ class PasswordVC: UIViewController {
         lb.font = UIFont(name: Font.semi_bold.rawValue, size: 20)
         lb.textColor = .white
         lb.textAlignment = .center
-        lb.text = "ea".uppercased()
         return lb
     }()
     let stackView: UIStackView = {
@@ -92,11 +93,13 @@ class PasswordVC: UIViewController {
     let doneButton: UIButton = {
         var btn = NButton()
         btn.setTitle("Done", for: .normal)
+        btn.titleLabel!.font = UIFont(name: Font.medium.rawValue, size: 16)
         btn.setTitleColor(Color.dark, for: .normal)
         btn.backgroundColor = .none
         btn.isHidden = true
         btn.alpha = 0
         btn.addTarget(self, action: #selector(didDoneTapped), for: .touchUpInside)
+        btn.transform = CGAffineTransform(translationX: 0, y: -15)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -110,7 +113,7 @@ class PasswordVC: UIViewController {
         cv.register(NumberPadCell.self, forCellWithReuseIdentifier: NumberPadCell.reusableId)
         cv.delegate = self
         cv.dataSource = self
-        cv.backgroundColor = Color.pad_bg
+        cv.backgroundColor = .clear
         cv.allowsMultipleSelection = false
         cv.allowsSelection = true
         cv.bounces = false
@@ -147,8 +150,8 @@ class PasswordVC: UIViewController {
             
             avatarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             avatarView.centerYAnchor.constraint(equalTo: backButton.centerYAnchor),
-            avatarView.heightAnchor.constraint(equalToConstant: 60),
-            avatarView.widthAnchor.constraint(equalToConstant: 60),
+            avatarView.heightAnchor.constraint(equalToConstant: 50),
+            avatarView.widthAnchor.constraint(equalToConstant: 50),
 
             avatarTitle.centerXAnchor.constraint(equalTo: avatarView.centerXAnchor),
             avatarTitle.centerYAnchor.constraint(equalTo: avatarView.centerYAnchor),
@@ -177,9 +180,8 @@ class PasswordVC: UIViewController {
         passCode = passCode + number
     }
     private func moveToFolderScreen(passcode: String){
-        let userDefaults = UserDefaults.standard
         if passcode.count == 4{
-            userDefaults.setValue(true, forKey: "isLoggedIn")
+            userDefaultManager.setUserLogIn()
             let vc = FolderVC()
             vc.modalPresentationStyle = .fullScreen
             present(vc, animated: true, completion: nil)
@@ -234,9 +236,10 @@ class PasswordVC: UIViewController {
     }
     private func showDoneButton(){
         if passCode.count == 4{
-            UIView.animate(withDuration: 0.5) {
+            UIView.animate(withDuration: 0.2) {
                 self.doneButton.isHidden = false
                 self.doneButton.alpha = 1
+                self.doneButton.transform = CGAffineTransform(translationX: 0, y: 0)
             }
         }else {
             UIView.animate(withDuration: 0.2) {
@@ -293,5 +296,11 @@ extension PasswordVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
         }
         return false
     }
-    
+}
+
+extension PasswordVC {
+    func getFullNameInitials(){
+        let fullName = userDefaultManager.getUserFullName()
+        self.avatarTitle.text = fullName.getUserInitials()
+    }
 }
