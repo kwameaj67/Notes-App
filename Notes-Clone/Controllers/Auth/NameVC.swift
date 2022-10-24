@@ -8,16 +8,26 @@
 import UIKit
 
 class NameVC: UIViewController {
-
+    
+    let userDefaultManager = UserDefaultsManager.shared
+    
+    var bottomButtonConstraint  = NSLayoutConstraint()
+    var isShowingKeyboard:Bool = false
+    
+    var fullName: String {
+        return "\(firstNameField.text!) \(lastNameField.text!)"
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
-//        configureBackButton()
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
-        view.addGestureRecognizer(tapGesture)
-        addToolBarToFields()
+        firstNameField.delegate = self
+        lastNameField.delegate = self
+//        addToolBarToFields()
+        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
+        handleButtonOnKeyboardShow()
+        disableButtons()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -95,8 +105,17 @@ class NameVC: UIViewController {
         return btn
     }()
     @objc func buttonTapped(){
-        let vc = PasswordVC()
-        navigationController?.pushViewController(vc, animated: true)
+        guard let firstName = firstNameField.text else { return }
+        guard let lastName = lastNameField.text else { return }
+        
+        if firstName.isEmpty || lastName.isEmpty {
+            print("Fields must be filled")
+        }else{
+            let vc = PasswordVC()
+            userDefaultManager.setUserFullName(fullName: fullName)
+            navigationController?.pushViewController(vc, animated: true)
+        }
+       
     }
     @objc func onDone(){
         if firstNameField.isEditing{
@@ -106,7 +125,7 @@ class NameVC: UIViewController {
             lastNameField.resignFirstResponder()
         }
     }
-    
+   
     func configureBackButton(){
         let backImage =  UIImage(systemName: "arrow.left",withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold))
         navigationController?.navigationBar.backIndicatorImage = backImage
@@ -127,7 +146,8 @@ class NameVC: UIViewController {
     
     func setupContraints(){
         scrollView.pin(to: view)
-        
+        bottomButtonConstraint =  continueButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20)
+        bottomButtonConstraint.isActive = true
         NSLayoutConstraint.activate([
             container.topAnchor.constraint(equalTo: scrollView.topAnchor),
             container.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
@@ -148,10 +168,91 @@ class NameVC: UIViewController {
             firstNameField.heightAnchor.constraint(equalToConstant: 52),
             lastNameField.heightAnchor.constraint(equalToConstant: 52),
             
-            continueButton.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
             continueButton.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 30),
             continueButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -30),
             continueButton.heightAnchor.constraint(equalToConstant: 52),
         ])
+    }
+}
+extension NameVC: UITextFieldDelegate {
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        isShowingKeyboard = true
+    }
+    func disableButtons(){
+        guard let firstName = firstNameField.text else { return }
+        guard let lastName = lastNameField.text else { return }
+        if !firstName.isEmpty || !lastName.isEmpty{
+            continueButton.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.2) {
+                self.continueButton.alpha = 1
+            }
+        } else {
+            continueButton.isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.2) {
+                self.continueButton.alpha = 0.8
+            }
+           
+        }
+    }
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        var text:String = ""
+        /// fix bugs
+//        if firstNameField.isFirstResponder{
+//            text = (firstNameField.text! as NSString).replacingCharacters(in: range, with: string)
+//        }
+        
+        text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
+
+        if !text.isEmpty{
+            continueButton.isUserInteractionEnabled = true
+            UIView.animate(withDuration: 0.2) {
+                self.continueButton.alpha = 1
+            }
+        } else {
+            continueButton.isUserInteractionEnabled = false
+            UIView.animate(withDuration: 0.2) {
+                self.continueButton.alpha = 0.8
+            }
+           
+        }
+        return true
+    }
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+        continueButton.isUserInteractionEnabled = false
+        UIView.animate(withDuration: 0.2) {
+            self.continueButton.alpha = 0.8
+        }
+        return true
+    }
+}
+extension NameVC {
+  
+    // handle saveButton when keyboard shows
+    func handleButtonOnKeyboardShow(){
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    @objc private func keyboardWillShow(notification: Notification){
+        if let _ = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if isShowingKeyboard{
+                self.bottomButtonConstraint.constant = -280
+            }
+            UIView.animate(withDuration: 0.5) {
+                self.view.layoutIfNeeded()
+            }
+        }
+
+    }
+    @objc private func keyboardWillHide(notification: Notification){
+        if let _ = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            if isShowingKeyboard{
+                self.bottomButtonConstraint.constant = -20
+            }
+            UIView.animate(withDuration: 0.5,animations: {
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+          
+        }
     }
 }
