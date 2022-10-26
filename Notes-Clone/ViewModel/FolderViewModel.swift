@@ -27,8 +27,13 @@ class FolderViewModel {
         let data = folderType.fetchFolders()
         self.folders = data
     }
+    
     func deleteFolder(folder:Folder){
         folderType.deleteFolder(folder: folder)
     }
-   
+    
+    func updateFolder(heading:String, category:String, lastUpdated:Date){
+       let updatedFolder = folderType.updateFolder(heading: heading, category: category, lastUpdated: lastUpdated)
+        print("\(updatedFolder.heading!)\n\(updatedFolder.category!)\n\(updatedFolder.lastUpdated!)")
+    }
 }

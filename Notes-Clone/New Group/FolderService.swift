@@ -9,9 +9,10 @@ import Foundation
 
 
 protocol FolderServiceProtocol {
-    func createFolder(category:String,heading:String) -> Folder
+    func createFolder(category:String, heading:String) -> Folder
     func fetchFolders() -> [Folder]
     func deleteFolder(folder: Folder)
+    func updateFolder(heading:String, category:String, lastUpdated:Date) -> Folder
 }
 
 class FolderService: FolderServiceProtocol {
@@ -40,6 +41,15 @@ class FolderService: FolderServiceProtocol {
             print("folder deleted")
             saveChanges()
         }
+    }
+    func updateFolder(heading:String, category:String, lastUpdated:Date) -> Folder {
+        let folder = Folder()
+        folder.heading = heading
+        folder.category = category
+        folder.lastUpdated = lastUpdated
+        
+        saveChanges()
+        return folder
     }
     func saveChanges(){
         if context.hasChanges {
