@@ -7,6 +7,7 @@
 
 import UIKit
 import Combine
+import BottomSheet
 
 class FolderVC: UIViewController, SaveFolderDelegate {
    
@@ -131,6 +132,9 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         return text
     }
   
+    @objc func didTapMoreImage(){
+        print("")
+    }
 }
 
 extension FolderVC:UITableViewDelegate {
@@ -170,6 +174,7 @@ extension FolderVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FolderCell.reusableId, for: indexPath) as! FolderCell
         cell.setupCell(for: folders[indexPath.section])
+        cell.controller = self
         cell.layer.cornerRadius = 20
         cell.selectionStyle = .none
         return cell

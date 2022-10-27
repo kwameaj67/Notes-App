@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,6 +23,7 @@
 		987C271F2906B72200A19A97 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271E2906B72200A19A97 /* String+Ext.swift */; };
 		989A93BD28F98077007C0979 /* NoteService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989A93BC28F98077007C0979 /* NoteService.swift */; };
 		989A93BF28F98535007C0979 /* NoteViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 989A93BE28F98535007C0979 /* NoteViewModel.swift */; };
+		98A3DFEF2909F58A00D055F8 /* BottomSheet in Frameworks */ = {isa = PBXBuildFile; productRef = 98A3DFEE2909F58A00D055F8 /* BottomSheet */; };
 		98BEA9DE28F89B87001E81A4 /* CategoryTypeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98BEA9DD28F89B87001E81A4 /* CategoryTypeCell.swift */; };
 		98C29D4328F2E9460054F286 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D4228F2E9460054F286 /* AppDelegate.swift */; };
 		98C29D4528F2E9460054F286 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D4428F2E9460054F286 /* SceneDelegate.swift */; };
@@ -103,6 +104,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				98A3DFEF2909F58A00D055F8 /* BottomSheet in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -304,6 +306,9 @@
 			dependencies = (
 			);
 			name = "Notes-Clone";
+			packageProductDependencies = (
+				98A3DFEE2909F58A00D055F8 /* BottomSheet */,
+			);
 			productName = "Notes-Clone";
 			productReference = 98C29D3F28F2E9460054F286 /* Notes-Clone.app */;
 			productType = "com.apple.product-type.application";
@@ -331,6 +336,9 @@
 				Base,
 			);
 			mainGroup = 98C29D3628F2E9450054F286;
+			packageReferences = (
+				98A3DFED2909F58A00D055F8 /* XCRemoteSwiftPackageReference "BottomSheet" */,
+			);
 			productRefGroup = 98C29D4028F2E9460054F286 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -592,6 +600,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		98A3DFED2909F58A00D055F8 /* XCRemoteSwiftPackageReference "BottomSheet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joomcode/BottomSheet";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		98A3DFEE2909F58A00D055F8 /* BottomSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 98A3DFED2909F58A00D055F8 /* XCRemoteSwiftPackageReference "BottomSheet" */;
+			productName = BottomSheet;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9832041728F70F0700B24A50 /* MyApp.xcdatamodeld */ = {

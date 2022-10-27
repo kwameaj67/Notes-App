@@ -9,7 +9,12 @@ import UIKit
 
 class FolderCell: UITableViewCell {
     
-   
+    var controller : FolderVC? {
+        didSet{
+            arrowImage.addGestureRecognizer(UITapGestureRecognizer(target: controller, action: #selector(FolderVC.didTapMoreImage)))
+        }
+    }
+    
     static let reusableId = "FolderCell"
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: FolderCell.reusableId)
@@ -51,12 +56,13 @@ class FolderCell: UITableViewCell {
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    let arrowImage : UIImageView = {
+    lazy var arrowImage : UIImageView = {
         let iv = UIImageView()
-        iv.image = UIImage(systemName: "chevron.right",withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold))
-        iv.tintColor = .white
+        iv.image = UIImage(systemName: "ellipsis",withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold))
+        iv.tintColor = .systemGray2
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
+        iv.isUserInteractionEnabled = true
         iv.translatesAutoresizingMaskIntoConstraints = false
         return iv
     }()
