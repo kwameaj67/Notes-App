@@ -70,3 +70,14 @@ struct NoteType{
         NoteType(heading: "Managing Tasks", body: "You’ve heard about tasks quite a bit by now. For the purposes of this tutorial you can consider a task to be a closure. Closures are self-contained, callable blocks of code you can store and pass around."),
     ]
 }
+
+struct FolderOptionType {
+    var name: String
+    var icon: String
+    
+    
+    static let data: [FolderOptionType] = [
+        FolderOptionType(name: "Edit folder", icon: "edit"),
+        FolderOptionType(name: "Delete folder", icon: "trash"),
+    ]
+}
