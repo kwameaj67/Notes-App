@@ -12,6 +12,8 @@ class PasswordVC: UIViewController {
     let userDefaultManager = UserDefaultsManager.shared
     let numberPadData = NumberPad.data
     var limitCount: Int = 0
+    var initialPassCode: String = ""
+    var finalPassCode: String = ""
     private var passCode: String = "" {
         didSet{
             showDoneButton()
@@ -41,7 +43,7 @@ class PasswordVC: UIViewController {
     let heading: UILabel = {
         let l = UILabel()
         l.textAlignment = .center
-        l.text = "what's your password"
+        l.text = "Enter new pin"
         l.font = UIFont(name: Font.bold.rawValue, size: 36)
         l.textColor = Color.dark
         l.numberOfLines = 0
@@ -63,7 +65,7 @@ class PasswordVC: UIViewController {
         lb.textAlignment = .center
         return lb
     }()
-    let stackView: UIStackView = {
+    let asteriskStackView: UIStackView = {
         let sv = UIStackView()
         sv.axis = .horizontal
         sv.distribution = .equalSpacing
@@ -133,10 +135,10 @@ class PasswordVC: UIViewController {
         view.addSubview(avatarView)
         avatarView.addSubview(avatarTitle)
         view.addSubview(numPadCollectionView)
-        view.addSubview(stackView)
+        view.addSubview(asteriskStackView)
         view.addSubview(doneButton)
         for item in [image1,image2,image3,image4]{
-            stackView.addArrangedSubview(item)
+            asteriskStackView.addArrangedSubview(item)
         }
     }
     
@@ -165,10 +167,10 @@ class PasswordVC: UIViewController {
             heading.topAnchor.constraint(equalTo: avatarView.bottomAnchor,constant: 50),
             heading.widthAnchor.constraint(equalToConstant: 300),
             
-            stackView.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 50),
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.widthAnchor.constraint(equalToConstant: 160),
-            stackView.heightAnchor.constraint(equalToConstant: 20),
+            asteriskStackView.topAnchor.constraint(equalTo: heading.bottomAnchor, constant: 50),
+            asteriskStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            asteriskStackView.widthAnchor.constraint(equalToConstant: 160),
+            asteriskStackView.heightAnchor.constraint(equalToConstant: 20),
            
             numPadCollectionView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.5),
             numPadCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 10),

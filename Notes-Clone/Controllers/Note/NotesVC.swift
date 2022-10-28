@@ -8,7 +8,19 @@
 import UIKit
 
 class NotesVC: UIViewController {
-    let notesData = NoteType.data
+    var notesData = NoteType.data {
+        didSet{
+            notesCollectionView.reloadData()
+            if notesData.count > 0 {
+                notesCollectionView.isHidden = false
+                notesCollectionView.alpha = 1
+            }
+            else {
+                emptyLabel.isHidden = false
+                emptyLabel.alpha = 1
+            }
+        }
+    }
     var notes : Note!
     var folderTitle: String? = "" {
         didSet{
@@ -31,9 +43,19 @@ class NotesVC: UIViewController {
        
     }
     // MARK: Properties -
+    let emptyLabel: UILabel = {
+        let lb = UILabel()
+        lb.numberOfLines = 0
+        lb.isHidden = true
+        lb.alpha = 0
+        lb.textAlignment = .center
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    
     let addButton: UIButton = {
         var btn = AddFloatingButton()
-        btn.addTarget(self, action: #selector(createNote), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(moveToNoteVC), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -44,24 +66,31 @@ class NotesVC: UIViewController {
         cv.dataSource = self
         cv.isScrollEnabled = true
         cv.bounces = true
+//        cv.isHidden = true
+//        cv.alpha = 0
         cv.backgroundColor = .clear
         cv.showsVerticalScrollIndicator = false
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
-    @objc func createNote(){
+    @objc func moveToNoteVC(){
         let vc = NoteDetailsVC()
 //        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     func setupViews(){
         view.addSubview(notesCollectionView)
+        view.addSubview(emptyLabel)
         view.addSubview(addButton)
         configureCompositionalLayout()
+        emptyLabel.attributedText = setupAttributedText("Wow, such empty 😬", "You have not created any note ")
     }
    
     func setupContraints(){
         NSLayoutConstraint.activate([
+            emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
             notesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             notesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 4),
             notesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -4),
@@ -118,17 +147,15 @@ extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let item = notesData[indexPath.row]
-        print(item.heading)
+        let _ = notesData[indexPath.row]
+        moveToNoteVC()
     }
-    
-    
 }
 
 extension NotesVC {
     func configureNavBar(){
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 16.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 22.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationItem.largeTitleDisplayMode = .always
              
@@ -156,5 +183,10 @@ extension NotesVC {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: .none, action: .none)
         navigationController?.navigationBar.tintColor = Color.dark
+    }
+    func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.dark,.font: UIFont(name: Font.semi_bold.rawValue, size: 18)!])
+        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.dark.withAlphaComponent(0.8),.font: UIFont(name: Font.medium.rawValue, size: 16)!]))
+        return text
     }
 }

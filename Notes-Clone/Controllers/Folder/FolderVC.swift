@@ -239,5 +239,7 @@ extension FolderVC: DeleteFolderDelegate, OptionCellDelegate {
             self.folderTableView.reloadData()
         }
     }
-   
+    func editFolderItem() {
+        
+    }
 }

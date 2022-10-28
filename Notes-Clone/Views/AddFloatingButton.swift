@@ -18,6 +18,7 @@ class AddFloatingButton: UIButton {
         titleLabel?.font = UIFont(name: "", size: 16)
         backgroundColor = Color.red
         layer.cornerRadius = 20
+        animatePulse()
         adjustsImageWhenHighlighted = false
     }
     
