@@ -39,10 +39,10 @@ extension Date {
             return "\(diff) hrs ago"
         } else if weekAgo < self {
             let diff = Calendar.current.dateComponents([.day], from: self, to: Date()).day ?? 0
-            return "\(diff) days ago"
+            return "\(diff > 1 ? "\(diff) days" : "\(diff) day") ago"
         }
         let diff = Calendar.current.dateComponents([.weekOfYear], from: self, to: Date()).weekOfYear ?? 0
-        return "\(diff) weeks ago"
+        return "\(diff > 1 ? "\(diff) weeks" : "\(diff) week") ago"
     }
 
 //    func timeAgoDisplay() -> String {
