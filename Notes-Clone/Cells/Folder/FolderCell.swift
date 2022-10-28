@@ -7,31 +7,61 @@
 
 import UIKit
 
+protocol OptionCellDelegate: AnyObject {
+    func getCellPressed(in cell: UITableViewCell)
+}
+
 class FolderCell: UITableViewCell {
     
+    weak var delegate: OptionCellDelegate?
     var controller : FolderVC? {
         didSet{
-            arrowImage.addGestureRecognizer(UITapGestureRecognizer(target: controller, action: #selector(FolderVC.didTapMoreImage)))
+            moreButton.addTarget(controller, action: #selector(FolderVC.didTapMoreImage), for: .touchUpInside)
         }
     }
     
+    var data: Folder? {
+        didSet{
+            guard let item = data else { return }
+            guard let heading = item.heading else { return }
+            guard let noteCount = item.notes?.count else { return }
+            guard let date = item.createdAt else { return }
+            guard let category = item.category else { return }
+            
+            titleLabel.text = heading
+            countLabel.text = "\(noteCount)"
+            dateLabel.text = "\(date.timeAgoDisplay())"
+            
+            if category.isEmpty {
+                categoryContainer.isHidden = true
+                categoryContainer.alpha = 0
+            } else {
+                categoryLabel.text = category
+            }
+            
+        }
+    }
     static let reusableId = "FolderCell"
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: FolderCell.reusableId)
         setupViews()
         setupContraints()
-        backgroundColor = Color.cell_dark_bg
+        backgroundColor = .clear
     }
-//    override func layoutSubviews() {
-//        super.layoutSubviews()
-//        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0))
-//     }
+
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: Propeties -
+    let container: UIView = {
+        let v = UIView()
+        v.backgroundColor = Color.cell_dark_bg
+        v.layer.cornerRadius = 20
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
     let titleLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 16)
@@ -56,49 +86,72 @@ class FolderCell: UITableViewCell {
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
-    lazy var arrowImage : UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(systemName: "ellipsis",withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .semibold))
-        iv.tintColor = .systemGray2
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.isUserInteractionEnabled = true
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
+    lazy var moreButton : UIButton = {
+        let b = UIButton()
+        let image = UIImage(systemName: "ellipsis",withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold))
+        b.setImage(image, for: .normal)
+        b.tintColor = .systemGray2
+        b.backgroundColor = .clear
+        b.addTarget(self, action: #selector(deletePressed), for: .primaryActionTriggered)
+        b.adjustsImageWhenHighlighted = false
+        b.translatesAutoresizingMaskIntoConstraints = false
+        return b
     }()
     
-    
-    func setupCell(for item: Folder){
-        guard let heading = item.heading else { return }
-        guard let noteCount = item.notes?.count else { return }
-        guard let date = item.createdAt else { return }
-        
-        titleLabel.text = heading
-        countLabel.text = "\(noteCount)"
-        dateLabel.text = "\(date.timeAgoDisplay())"
-
+    let categoryContainer: UIView = {
+        let v = UIView()
+        v.layer.borderWidth = 1
+        v.layer.borderColor = UIColor.systemGray2.cgColor
+        v.layer.cornerRadius = 30/2
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
+    let categoryLabel: UILabel = {
+        let lb = UILabel()
+        lb.font = UIFont(name: Font.medium.rawValue, size: 14)
+        lb.textColor = .white
+        lb.numberOfLines = 0
+        lb.translatesAutoresizingMaskIntoConstraints = false
+        return lb
+    }()
+    @objc func deletePressed(){
+        delegate?.getCellPressed(in: self)
     }
+    
     func setupViews(){
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(countLabel)
-        contentView.addSubview(arrowImage)
-        contentView.addSubview(dateLabel)
+        contentView.addSubview(container)
+        container.addSubview(titleLabel)
+        container.addSubview(categoryContainer)
+        categoryContainer.addSubview(categoryLabel)
+        container.addSubview(moreButton)
+        container.addSubview(dateLabel)
     }
     func setupContraints(){
         NSLayoutConstraint.activate([
+            container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,constant: -5),
             
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: arrowImage.leadingAnchor, constant: -20),
+            titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
+            titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: moreButton.leadingAnchor, constant: -20),
             
-            arrowImage.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
-            arrowImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            moreButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            moreButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
+            moreButton.heightAnchor.constraint(equalToConstant: 30),
+            moreButton.widthAnchor.constraint(equalToConstant: 30),
             
-            countLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            countLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            categoryContainer.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
+            categoryContainer.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
+            categoryContainer.heightAnchor.constraint(equalToConstant: 30),
             
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-            dateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            categoryLabel.centerYAnchor.constraint(equalTo: categoryContainer.centerYAnchor),
+            categoryLabel.leadingAnchor.constraint(equalTo: categoryContainer.leadingAnchor,constant: 15),
+            categoryLabel.trailingAnchor.constraint(equalTo: categoryContainer.trailingAnchor,constant: -15),
+            
+            dateLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
+            dateLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
         ])
     }  
 }
