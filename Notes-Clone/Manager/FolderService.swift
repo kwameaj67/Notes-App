@@ -12,11 +12,11 @@ protocol FolderServiceProtocol {
     func createFolder(category:String, heading:String) -> Folder
     func fetchFolders() -> [Folder]
     func deleteFolder(folder: Folder)
-    func updateFolder(heading:String, category:String, lastUpdated:Date) -> Folder
+    func updateFolder(folder: Folder, heading:String, category:String, lastUpdated:Date) -> Folder
 }
 
 class FolderService: FolderServiceProtocol {
-   
+    
     var context = CoreDataManager.shared.context
     
     func createFolder(category:String,heading:String) -> Folder {
@@ -42,12 +42,10 @@ class FolderService: FolderServiceProtocol {
             saveChanges()
         }
     }
-    func updateFolder(heading:String, category:String, lastUpdated:Date) -> Folder {
-        let folder = Folder()
+    func updateFolder(folder: Folder, heading:String, category:String, lastUpdated:Date) -> Folder {
         folder.heading = heading
         folder.category = category
         folder.lastUpdated = lastUpdated
-        
         saveChanges()
         return folder
     }

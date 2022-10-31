@@ -9,11 +9,17 @@ import UIKit
 
 class CategoryTypeCell: UICollectionViewCell {
     
+    var data : CategoryType? {
+        didSet{
+            guard let item = data else { return }
+            label.text = item.title
+        }
+    }
     override var isSelected: Bool {
         didSet {
             UIView.animate(withDuration: 0.3) {
                 self.layer.borderWidth = self.isSelected ? 1 : 1
-                self.layer.borderColor = self.isSelected ? Color.cell_dark_bg.cgColor :UIColor.systemGray2.cgColor
+                self.layer.borderColor = self.isSelected ? Color.cell_dark_bg.cgColor : UIColor.systemGray2.cgColor
                 self.layer.backgroundColor = self.isSelected ? Color.red.cgColor : UIColor.clear.cgColor
             }
         }
@@ -32,6 +38,13 @@ class CategoryTypeCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+//        self.layer.borderWidth = self.isSelected ? 1 : 1
+//        self.layer.borderColor = self.isSelected ? Color.cell_dark_bg.cgColor : UIColor.systemGray2.cgColor
+//        self.layer.backgroundColor = self.isSelected ? Color.red.cgColor : UIColor.clear.cgColor
     }
     // MARK: Properties -
     let label: UILabel = {
@@ -54,7 +67,4 @@ class CategoryTypeCell: UICollectionViewCell {
         ])
     }
     
-    func setupCell(for item: CategoryType){
-        label.text = item.title
-    }
 }

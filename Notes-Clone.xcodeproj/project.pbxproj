@@ -53,6 +53,7 @@
 		98C29D8928F43B130054F286 /* NumberPad.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D8828F43B130054F286 /* NumberPad.swift */; };
 		98C29D8B28F490F60054F286 /* PinImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98C29D8A28F490F60054F286 /* PinImage.swift */; };
 		98D50C782901AAA400674DAE /* NoteCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98D50C772901AAA400674DAE /* NoteCollectionCell.swift */; };
+		98FC0F25290C7CC100158562 /* EditFolderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FC0F24290C7CC000158562 /* EditFolderVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -103,6 +104,7 @@
 		98C29D8828F43B130054F286 /* NumberPad.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberPad.swift; sourceTree = "<group>"; };
 		98C29D8A28F490F60054F286 /* PinImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinImage.swift; sourceTree = "<group>"; };
 		98D50C772901AAA400674DAE /* NoteCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCollectionCell.swift; sourceTree = "<group>"; };
+		98FC0F24290C7CC000158562 /* EditFolderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditFolderVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +252,7 @@
 				98C29D4628F2E9460054F286 /* FolderVC.swift */,
 				98C29D5D28F2EA300054F286 /* AddFolderVC.swift */,
 				98A3DFF0290AAD1700D055F8 /* FolderOptionsVC.swift */,
+				98FC0F24290C7CC000158562 /* EditFolderVC.swift */,
 			);
 			path = Folder;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				9832044128F71BBD00B24A50 /* Folder+CoreDataProperties.swift in Sources */,
 				98C29D7828F2EE3A0054F286 /* PasswordVC.swift in Sources */,
 				9832040C28F59E1800B24A50 /* MockData.swift in Sources */,
+				98FC0F25290C7CC100158562 /* EditFolderVC.swift in Sources */,
 				98C29D6A28F2EB6E0054F286 /* Color.swift in Sources */,
 				98C29D4728F2E9460054F286 /* FolderVC.swift in Sources */,
 				9832043E28F71BBD00B24A50 /* Note+CoreDataClass.swift in Sources */,

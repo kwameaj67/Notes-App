@@ -9,7 +9,7 @@ import UIKit
 import Combine
 import BottomSheet
 
-class FolderVC: UIViewController, SaveFolderDelegate {
+class FolderVC: UIViewController {
    
     private var cancellables: AnyCancellable?
     let childVC = FolderOptionsVC()
@@ -68,7 +68,7 @@ class FolderVC: UIViewController, SaveFolderDelegate {
     }()
     let addButton: UIButton = {
         var btn = AddFloatingButton()
-        btn.addTarget(self, action: #selector(createFolder), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(presentCreateFolderVC), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -117,17 +117,20 @@ class FolderVC: UIViewController, SaveFolderDelegate {
         ])
     }
     
-    @objc func createFolder(){
+    @objc func presentCreateFolderVC(){
         let vc = AddFolderVC()
         vc.delegate = self
         vc.modalPresentationStyle = .fullScreen
         present(vc, animated: true, completion: nil)
     }
-    func saveFolder(isSaved: Bool) {
-        if isSaved{
-            getFolderData()
-        }
+    @objc func presentEditFolderVC(folder: Folder){
+        let vc = EditFolderVC()
+        vc.delegate = self
+        vc.folder = folder
+        vc.modalPresentationStyle = .fullScreen
+        present(vc, animated: true, completion: nil)
     }
+    
   
     @objc func didTapMoreImage(_ sender: UIButton){
         childVC.preferredContentSize  = CGSize(width: Int(view.frame.width), height: 180)
@@ -238,8 +241,28 @@ extension FolderVC: DeleteFolderDelegate, OptionCellDelegate {
         DispatchQueue.main.async {
             self.folderTableView.reloadData()
         }
+        dismiss(animated: true, completion: nil)
     }
     func editFolderItem() {
-        
+        dismiss(animated: true, completion: nil)
+        let item = folderIndexPath
+        let folderObject  = self.folders[item.row]
+        presentEditFolderVC(folder: folderObject)
     }
+}
+
+extension FolderVC: SaveFolderDelegate, UpdateFolderDelegate {
+   
+    func saveFolder(isSaved: Bool) {
+        if isSaved{
+            getFolderData()
+        }
+    }
+    
+    func updatedFolder(isSaved: Bool) {
+        if isSaved{
+            getFolderData()
+        }
+    }
+    
 }

@@ -32,8 +32,8 @@ class FolderViewModel {
         folderType.deleteFolder(folder: folder)
     }
     
-    func updateFolder(heading:String, category:String, lastUpdated:Date){
-       let updatedFolder = folderType.updateFolder(heading: heading, category: category, lastUpdated: lastUpdated)
+    func updateFolder(folder: Folder, heading:String, category:String, lastUpdated:Date){
+       let updatedFolder = folderType.updateFolder(folder: folder, heading: heading, category: category, lastUpdated: lastUpdated)
         print("\(updatedFolder.heading!)\n\(updatedFolder.category!)\n\(updatedFolder.lastUpdated!)")
     }
 }
