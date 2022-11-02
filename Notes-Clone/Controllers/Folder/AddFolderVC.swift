@@ -25,7 +25,6 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
         setupViews()
         setupContraints()
         folderTextField.delegate = self
-//        view.addGestureRecognizer(UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing)))
         handleButtonOnKeyboardShow()
     }
     
