@@ -24,14 +24,13 @@ class FolderOptionCell: UITableViewCell {
     let titleLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 18)
-        lb.textColor = .systemGray2
-        lb.numberOfLines = 0
+        lb.textColor = Color.text_color_heading
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
     let icon : UIImageView = {
         var iv = UIImageView()
-        iv.tintColor = .systemGray2
+        iv.tintColor = Color.text_color_heading
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false
@@ -46,8 +45,8 @@ class FolderOptionCell: UITableViewCell {
             
             icon.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             icon.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 30),
-            icon.heightAnchor.constraint(equalToConstant: 25),
-            icon.widthAnchor.constraint(equalToConstant: 25),
+            icon.heightAnchor.constraint(equalToConstant: 23),
+            icon.widthAnchor.constraint(equalToConstant: 23),
             
             titleLabel.centerYAnchor.constraint(equalTo: icon.centerYAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: icon.trailingAnchor, constant: 20),

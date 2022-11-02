@@ -18,7 +18,7 @@ class BottomSheetVC: UIViewController {
     weak var delegate : BottomSheetItemDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.cell_dark_bg
+        view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
     }
