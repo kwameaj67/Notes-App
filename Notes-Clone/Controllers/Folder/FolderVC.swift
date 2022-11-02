@@ -12,7 +12,7 @@ import BottomSheet
 class FolderVC: UIViewController {
    
     private var cancellables: AnyCancellable?
-    let childVC = FolderOptionsVC()
+    let childVC = BottomSheetVC()
     var folderIndexPath: IndexPath = IndexPath(row: 0, section: 0)
     private var folders:[Folder] = [] {
         didSet{
@@ -52,7 +52,6 @@ class FolderVC: UIViewController {
         cancellables = viewModel.$folders.sink { data in
             self.folders = data
             self.folders.reverse()
-            print(self.folders.count)
         }
     }
     
@@ -131,6 +130,12 @@ class FolderVC: UIViewController {
         present(vc, animated: true, completion: nil)
     }
     
+    func presentNoteVC(folder: Folder){
+        let vc = NotesVC()
+//        vc.folderTitle = folder.heading ?? "No title"
+        vc.folder = folder
+        navigationController?.pushViewController(vc, animated: true)
+    }
   
     @objc func didTapMoreImage(_ sender: UIButton){
         childVC.preferredContentSize  = CGSize(width: Int(view.frame.width), height: 180)
@@ -162,10 +167,7 @@ extension FolderVC:UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let folder = folders[indexPath.row]
-        let vc = NotesVC()
-        print(folder.heading!)
-        vc.folderTitle = folder.heading ?? "No title"
-        navigationController?.pushViewController(vc, animated: true)
+        presentNoteVC(folder: folder)
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -220,7 +222,7 @@ extension FolderVC {
     }
 }
 
-extension FolderVC: DeleteFolderDelegate, OptionCellDelegate {
+extension FolderVC: BottomSheetItemDelegate, OptionCellDelegate {
     func getCellPressed(in cell: UITableViewCell) {
         guard let indexPath = folderTableView.indexPath(for: cell) else {
                return
@@ -229,7 +231,7 @@ extension FolderVC: DeleteFolderDelegate, OptionCellDelegate {
     }
     
     
-    func deleteFolderItem() {
+    func deleteItem() {
         // get folder object to delete
         let item = folderIndexPath
         let folderObject  = self.folders[item.row]
@@ -243,7 +245,7 @@ extension FolderVC: DeleteFolderDelegate, OptionCellDelegate {
         }
         dismiss(animated: true, completion: nil)
     }
-    func editFolderItem() {
+    func editItem() {
         dismiss(animated: true, completion: nil)
         let item = folderIndexPath
         let folderObject  = self.folders[item.row]
