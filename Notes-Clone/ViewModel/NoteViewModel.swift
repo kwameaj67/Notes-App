@@ -11,28 +11,24 @@ import Combine
 
 class NoteViewModel {
     var noteType: NoteServiceProtocol
-    @Published var notes:[Note] = []
     
     init(noteType: NoteServiceProtocol = NoteService()) {
         self.noteType = noteType
     }
     
-    func addNote(heading:String,body:String){
-        let newNote = noteType.createNote(heading: heading, body: body)
-        print("\(newNote.heading!)\n\(newNote.body!)\n\(newNote.createdAt!)")
-    }
-    
-    func getNotes(){
-        let data = noteType.fetchNotes()
-        self.notes = data
+    func addNote(folder: Folder, heading:String, body:String){
+        let _ = noteType.createNote(folder: folder, heading: heading, body: body)
     }
     
     func deleteNote(note: Note){
         noteType.deleteNote(note: note)
     }
     
-    func updateNote(heading:String,body:String,lastUpdated:Date){
-       let updateNote = noteType.updateNote(heading: heading, body: body, lastUpdated: lastUpdated)
+    func updateNote(folder: Folder, heading:String, body:String, lastUpdated:Date){
+       let updateNote = noteType.updateNote(folder: folder, heading: heading, body: body, lastUpdated: lastUpdated)
         print("\(updateNote.heading!)\n\(updateNote.body!)\n\(updateNote.lastUpdated!)")
+    }
+    func starNote(folder: Folder, isStarred: Bool){
+
     }
 }
