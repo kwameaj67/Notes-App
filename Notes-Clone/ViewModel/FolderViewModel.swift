@@ -13,6 +13,7 @@ class FolderViewModel {
     
     var folderType : FolderServiceProtocol
     @Published var folders:[Folder] = []
+    @Published var notes:[Note] = []
     
     init(folderType : FolderServiceProtocol = FolderService()) {
         self.folderType = folderType
@@ -28,6 +29,10 @@ class FolderViewModel {
         self.folders = data
     }
     
+    func getNotes(folder: Folder){
+        let data = folderType.fetchNotes(folder: folder)
+        self.notes = data
+    }
     func deleteFolder(folder:Folder){
         folderType.deleteFolder(folder: folder)
     }

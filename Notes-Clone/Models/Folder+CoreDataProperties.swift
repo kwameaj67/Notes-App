@@ -23,6 +23,17 @@ extension Folder {
     @NSManaged public var lastUpdated: Date?
     @NSManaged public var notes: NSSet?
 
+    
+    static func sortFolderRequest () -> NSFetchRequest<Folder> {
+        let request = NSFetchRequest<NSManagedObject>(entityName: "Folder")
+        let dateSortDescriptor = NSSortDescriptor(key: "createdAt", ascending: false)
+        request.sortDescriptors = [dateSortDescriptor]
+        return NSFetchRequest<Folder>(entityName: "Folder")
+    }
+    public var notesArray: [Note] {
+        let set = notes as? Set<Note> ?? []
+        return set.sorted()
+    }
 }
 
 // MARK: Generated accessors for notes
