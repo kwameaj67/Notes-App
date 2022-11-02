@@ -32,7 +32,6 @@ class FolderVC: UIViewController {
     private let viewModel = FolderViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "My folders"
         view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
@@ -43,7 +42,7 @@ class FolderVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavBar()
-        title = "folders"
+        title = "My folders"
         navigationController?.navigationBar.isHidden = false
         folderTableView.reloadData()
     }
@@ -132,7 +131,6 @@ class FolderVC: UIViewController {
     
     func presentNoteVC(folder: Folder){
         let vc = NotesVC()
-//        vc.folderTitle = folder.heading ?? "No title"
         vc.folder = folder
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -196,7 +194,7 @@ extension FolderVC {
     func configureNavBar(){
 
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 24.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationItem.largeTitleDisplayMode = .always
         self.navigationController?.navigationBar.largeContentTitle = "My folders"

@@ -248,7 +248,7 @@ extension NotesVC {
     }
     func configureNavBar(){
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 22.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 24.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.prefersLargeTitles = true
              
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
