@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol DeleteFolderDelegate: AnyObject {
-    func deleteFolderItem()
-    func editFolderItem()
+protocol BottomSheetItemDelegate: AnyObject {
+    func deleteItem()
+    func editItem()
 }
 
-class FolderOptionsVC: UIViewController {
+class BottomSheetVC: UIViewController {
     
     let options = FolderOptionType.data
-    weak var delegate : DeleteFolderDelegate?
+    weak var delegate : BottomSheetItemDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.cell_dark_bg
@@ -25,7 +25,7 @@ class FolderOptionsVC: UIViewController {
     
     // MARK: Properties
     
-    lazy var tableView: UITableView = {
+    lazy var optionTableView: UITableView = {
         let tb = UITableView(frame: .zero,style: .plain)
         tb.register(FolderOptionCell.self, forCellReuseIdentifier: FolderOptionCell.reusableId)
         tb.delegate = self
@@ -42,21 +42,21 @@ class FolderOptionsVC: UIViewController {
     }()
     
     func setupViews(){
-        view.addSubview(tableView)
+        view.addSubview(optionTableView)
     }
     func setupContraints(){
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            optionTableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
+            optionTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            optionTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            optionTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
         
     }
   
 }
 
-extension FolderOptionsVC: UITableViewDataSource, UITableViewDelegate{
+extension BottomSheetVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return options.count
     }
@@ -73,10 +73,10 @@ extension FolderOptionsVC: UITableViewDataSource, UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let _ = options[indexPath.row]
         if indexPath.row == 0 {
-            delegate?.editFolderItem()
+            delegate?.editItem()
         }
         if indexPath.row == 1 {
-            delegate?.deleteFolderItem()
+            delegate?.deleteItem()
         }
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
