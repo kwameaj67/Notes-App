@@ -35,12 +35,12 @@ class NoteDetailsVC: UIViewController {
     }
     var note: Note? {
         didSet{
-            guard let date = note?.createdAt else { return }
+            guard let noteObject = note else { return }
+            guard let date = noteObject.createdAt else { return }
             
             dateLabel.text = "Created \(date.timeAgoDisplayNative())"
             headingTextView.text = note?.heading ?? ""
             bodyTextView.text = note?.body ?? ""
-
         }
     }
     
@@ -55,19 +55,20 @@ class NoteDetailsVC: UIViewController {
         setupViews()
         setupConstraints()
         configureBackButton()
-        configureNavBar()
+        
         disableButton()
         headingTextView.becomeFirstResponder()
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-      navigationController?.navigationItem.largeTitleDisplayMode = .never
-        navigationController?.navigationBar.prefersLargeTitles = false
+        configureNavBar()
     }
     override func viewDidDisappear(_ animated: Bool) {
         headingTextView.text = ""
         bodyTextView.text = ""
+        note = nil
+       
     }
     var mainScrollView : UIScrollView = {
         var sv = UIScrollView()
@@ -83,7 +84,7 @@ class NoteDetailsVC: UIViewController {
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
-    // MARK: Properties
+    // MARK: Properties -
     let categoryLabel: UILabel = {
         let lb = UILabel()
         lb.text = "💰 Savings"
@@ -138,7 +139,8 @@ class NoteDetailsVC: UIViewController {
         tf.isScrollEnabled = false
         tf.showsVerticalScrollIndicator = false
         tf.linkTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.blue, .font:  UIFont(name: Font.medium.rawValue, size: 15)!]
-        tf.textColor = Color.dark.withAlphaComponent(0.8)
+        tf.textColor = Color.text_color_normal
+            .withAlphaComponent(0.8)
         tf.typingAttributes = attributes
         tf.font = UIFont(name: Font.medium.rawValue, size: 15)
         tf.translatesAutoresizingMaskIntoConstraints = false
@@ -154,39 +156,36 @@ class NoteDetailsVC: UIViewController {
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
-    let updateBtn: UIButton = {
-        var btn = NButton()
-        btn.layer.cornerRadius = 52/2
-        btn.titleLabel?.textColor = .white
-        btn.setTitle("Update Note", for: .normal)
-        btn.backgroundColor = Color.cell_dark_bg
-        btn.addTarget(self, action: #selector(updateNote), for: .touchUpInside)
-        btn.translatesAutoresizingMaskIntoConstraints = false
-        return btn
-    }()
    
+   // MARK: Functions -
     @objc func saveNote(){
         guard let folder = folder else { return }
-        viewModel.addNote(folder: folder, heading: headingTextView.text, body: bodyTextView.text)
+        if note != nil {
+            updateNote()  // if note exists, update it
+        }
+        else {
+            viewModel.addNote(folder: folder, heading: headingTextView.text, body: bodyTextView.text)
+            delegate?.saveNote(isSaved: true)
+            navigationController?.popViewController(animated: true)
+        }
+       
+    }
+   
+    func updateNote(){
+        guard let note = note else { return }
+        viewModel.updateNote(note: note, heading: headingTextView.text, body: bodyTextView.text, lastUpdated: Date())
         delegate?.saveNote(isSaved: true)
         navigationController?.popViewController(animated: true)
     }
+    
     @objc func starFavoriteNote(){
         guard let _ = folder else { return }
         isStarredNote = !isStarredNote
     }
     
-   
-    @objc func updateNote(){
-        guard let folder = folder else { return }
-        viewModel.updateNote(folder: folder, heading: headingTextView.text, body: bodyTextView.text, lastUpdated: Date())
-        delegate?.saveNote(isSaved: true)
-        navigationController?.popViewController(animated: true)
-    }
     func setupViews(){
         view.addSubview(mainScrollView)
         view.addSubview(saveBtn)
-//        view.addSubview(updateBtn)
         mainScrollView.addSubview(container)
         [categoryLabel,dotIcon,dateLabel,headingTextView,bodyTextView].forEach{
             container.addSubview($0)
@@ -252,20 +251,6 @@ class NoteDetailsVC: UIViewController {
             }
         }
     }
-    func showButtonType(){ // fix bug here showing appropriate buttons
-        guard let heading = headingTextView.text else { return }
-        print(heading)
-        if heading.isEmpty{ // if note exist
-            saveBtn.isHidden = false
-            saveBtn.alpha = 1
-            print("show saveBtn")
-        }
-        else {
-            updateBtn.isHidden = false
-            updateBtn.alpha = 1
-            print("show updateBtn")
-        }
-    }
 }
         
 
@@ -274,7 +259,6 @@ extension NoteDetailsVC {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 16.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
              
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
