@@ -11,7 +11,7 @@ import CoreData
 protocol NoteServiceProtocol {
     func createNote(folder: Folder, heading:String, body:String) -> Note
     func deleteNote(note: Note)
-    func updateNote(folder: Folder, heading:String, body:String, lastUpdated:Date) -> Note
+    func updateNote(note: Note, heading:String, body:String, lastUpdated:Date) -> Note
 //    func starNote(folder: Folder, isStarred: Bool) -> Note
 }
 
@@ -37,12 +37,10 @@ class NoteService: NoteServiceProtocol {
             saveChanges()
         }
     }
-    func updateNote(folder: Folder, heading:String, body:String, lastUpdated:Date) -> Note  {
-        let note = Note()
+    func updateNote(note: Note, heading:String, body:String, lastUpdated:Date) -> Note  {
         note.heading = heading
         note.body = body
         note.lastUpdated = lastUpdated
-        note.folder = folder
         
         saveChanges()
         return note
