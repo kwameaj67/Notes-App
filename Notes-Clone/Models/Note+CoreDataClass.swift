@@ -10,6 +10,11 @@ import Foundation
 import CoreData
 
 @objc(Note)
-public class Note: NSManagedObject {
-
+public class Note: NSManagedObject, Comparable {
+    public static func < (lhs: Note, rhs: Note) -> Bool {
+        if lhs.createdAt! < rhs.createdAt! {
+            return true
+        }
+        return false
+    }
 }
