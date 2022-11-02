@@ -6,51 +6,55 @@
 //
 
 import Foundation
+import CoreData
 
 protocol NoteServiceProtocol {
-    func createNote(heading:String,body:String) -> Note
-    func fetchNotes() -> [Note]
+    func createNote(folder: Folder, heading:String, body:String) -> Note
     func deleteNote(note: Note)
-    func updateNote(heading:String,body:String,lastUpdated:Date) -> Note
+    func updateNote(folder: Folder, heading:String, body:String, lastUpdated:Date) -> Note
+//    func starNote(folder: Folder, isStarred: Bool) -> Note
 }
 
 class NoteService: NoteServiceProtocol {
   
     var context = CoreDataManager.shared.context
     
-    func createNote(heading:String,body:String) -> Note {
+    func createNote(folder: Folder, heading:String, body:String) -> Note {
         let note = Note(context: context)
         note.id = UUID()
         note.heading = heading
         note.body = body
         note.createdAt = Date().getDate()
         note.lastUpdated = Date().getDate()
-
+        note.folder = folder
         saveChanges()
         return note
-    }
-    func fetchNotes() -> [Note] {
-        print("fetch notes")
-        let notes:[Note] = try! context.fetch(Note.fetchRequest())
-        return notes
     }
     func deleteNote(note: Note){
         do {
             context.delete(note)
-            print("folder deleted")
+            print("note deleted")
             saveChanges()
         }
     }
-    func updateNote(heading:String,body:String,lastUpdated:Date) -> Note  {
+    func updateNote(folder: Folder, heading:String, body:String, lastUpdated:Date) -> Note  {
         let note = Note()
         note.heading = heading
         note.body = body
         note.lastUpdated = lastUpdated
+        note.folder = folder
         
         saveChanges()
         return note
     }
-    
+//    func starNote(folder: Folder, isStarred: Bool) -> Note {
+//        let note = Note()
+//        note.isStarred = isStarred
+//        note.folder = folder
+//        
+//        saveChanges()
+//        return note
+//    }
    
     func saveChanges(){
         if context.hasChanges {
