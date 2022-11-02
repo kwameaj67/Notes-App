@@ -40,12 +40,6 @@ class CategoryTypeCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func prepareForReuse() {
-        super.prepareForReuse()
-//        self.layer.borderWidth = self.isSelected ? 1 : 1
-//        self.layer.borderColor = self.isSelected ? Color.cell_dark_bg.cgColor : UIColor.systemGray2.cgColor
-//        self.layer.backgroundColor = self.isSelected ? Color.red.cgColor : UIColor.clear.cgColor
-    }
     // MARK: Properties -
     let label: UILabel = {
         let lb = UILabel()
