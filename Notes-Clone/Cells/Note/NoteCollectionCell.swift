@@ -7,15 +7,25 @@
 
 import UIKit
 
+protocol NoteCellDelegate: AnyObject {
+    func getCellPressed(in cell: UICollectionViewCell)
+}
+
 class NoteCollectionCell: UICollectionViewCell {
-    
-    var data: NoteType? {
+    var data: Note? {
         didSet{
             setupCell()
         }
     }
-    
+    weak var delegate: NoteCellDelegate?
     static let reusableId = "NoteCollectionCell"
+    
+    var controller : NotesVC? {
+        didSet{
+            moreButton.addTarget(controller, action: #selector(NotesVC.didTapMoreImage), for: .touchUpInside)
+        }
+    }
+
     let bg_array = [Color.cell_dark_bg,Color.pale_blue,Color.pale_green,Color.pale_red,Color.pale_green,Color.pale_yellow,Color.pale_orange,Color.pale_violet,Color.pale_purple]
     
     override init(frame: CGRect) {
@@ -32,6 +42,9 @@ class NoteCollectionCell: UICollectionViewCell {
         else {
             titleLabel.textColor = Color.dark
         }
+        if backgroundColor == Color.cell_dark_bg{
+            moreButton.tintColor = .white
+        }
        
         layer.cornerRadius = 20
         clipsToBounds = true
@@ -45,7 +58,7 @@ class NoteCollectionCell: UICollectionViewCell {
     let titleLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.semi_bold.rawValue, size: 17)
-        lb.numberOfLines = 2
+        lb.numberOfLines = 1
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -57,23 +70,46 @@ class NoteCollectionCell: UICollectionViewCell {
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
+    lazy var moreButton : UIButton = {
+        let b = UIButton()
+        let image = UIImage(systemName: "ellipsis",withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .semibold))
+        b.setImage(image, for: .normal)
+        b.tintColor = Color.dark
+        b.backgroundColor = .clear
+        b.addTarget(self, action: #selector(didTapButton), for: .primaryActionTriggered)
+        b.adjustsImageWhenHighlighted = false
+        b.translatesAutoresizingMaskIntoConstraints = false
+        return b
+    }()
+   
+    @objc func didTapButton(){
+        delegate?.getCellPressed(in: self)
+    }
+    
     func setupViews(){
         addSubview(titleLabel)
         addSubview(bodyLabel)
+        addSubview(moreButton)
     }
     func setupContraints(){
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 20),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            titleLabel.trailingAnchor.constraint(equalTo: moreButton.leadingAnchor, constant: -5),
+
+            moreButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
+            moreButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
+            moreButton.heightAnchor.constraint(equalToConstant: 30),
+            moreButton.widthAnchor.constraint(equalToConstant: 30),
             
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 30),
+            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 14),
             bodyLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 15),
             bodyLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -15),
+            
         ])
     }
     func setupCell(){
-        guard let item = data else {return}
+        guard let item = data else { return }
         titleLabel.text = item.heading
         bodyLabel.text = item.body
     }
