@@ -45,10 +45,10 @@ extension Date {
         return "\(diff > 1 ? "\(diff) weeks" : "\(diff) week") ago"
     }
 
-//    func timeAgoDisplay() -> String {
-//        let formatter = RelativeDateTimeFormatter()
-//        formatter.unitsStyle = .full
-//        return formatter.localizedString(for: self, relativeTo: Date())
-//    }
+    func timeAgoDisplayNative() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
 
 }
