@@ -18,9 +18,10 @@ class CategoryTypeCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             UIView.animate(withDuration: 0.3) {
-                self.layer.borderWidth = self.isSelected ? 1 : 1
-                self.layer.borderColor = self.isSelected ? Color.cell_dark_bg.cgColor : UIColor.systemGray2.cgColor
+                self.layer.borderWidth = self.isSelected ? 0 : 1
+                self.layer.borderColor = self.isSelected ? UIColor.clear.cgColor : Color.text_color_normal.cgColor
                 self.layer.backgroundColor = self.isSelected ? Color.red.cgColor : UIColor.clear.cgColor
+                self.label.textColor = self.isSelected ? UIColor.white : Color.text_color_normal
             }
         }
     }
@@ -44,7 +45,7 @@ class CategoryTypeCell: UICollectionViewCell {
     let label: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 14)
-        lb.textColor = .white
+        lb.textColor = Color.text_color_normal
         lb.isUserInteractionEnabled = false
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb

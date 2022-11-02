@@ -57,15 +57,15 @@ class FolderCell: UITableViewCell {
     // MARK: Propeties -
     let container: UIView = {
         let v = UIView()
-        v.backgroundColor = Color.cell_dark_bg
+        v.backgroundColor = Color.pad_bg
         v.layer.cornerRadius = 20
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
     }()
     let titleLabel: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont(name: Font.medium.rawValue, size: 16)
-        lb.textColor = .systemGray2
+        lb.font = UIFont(name: Font.semi_bold.rawValue, size: 18)
+        lb.textColor = Color.text_color_heading
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -81,7 +81,7 @@ class FolderCell: UITableViewCell {
     let dateLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 14)
-        lb.textColor = .systemGray2
+        lb.textColor = Color.text_color_normal
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -101,7 +101,7 @@ class FolderCell: UITableViewCell {
     let categoryContainer: UIView = {
         let v = UIView()
         v.layer.borderWidth = 1
-        v.layer.borderColor = UIColor.systemGray2.cgColor
+        v.layer.borderColor = Color.text_color_normal.cgColor
         v.layer.cornerRadius = 30/2
         v.translatesAutoresizingMaskIntoConstraints = false
         return v
@@ -109,7 +109,7 @@ class FolderCell: UITableViewCell {
     let categoryLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 14)
-        lb.textColor = .white
+        lb.textColor = Color.text_color_normal
         lb.numberOfLines = 0
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb

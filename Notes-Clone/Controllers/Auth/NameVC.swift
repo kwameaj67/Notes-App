@@ -54,7 +54,7 @@ class NameVC: UIViewController {
         l.textAlignment = .center
         l.text = "what's your name"
         l.font = UIFont(name: Font.bold.rawValue, size: 36)
-        l.textColor = Color.dark
+        l.textColor = Color.text_color_heading
         l.numberOfLines = 0
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -68,12 +68,12 @@ class NameVC: UIViewController {
     }()
     let firstNameField: UITextField = {
         var tf = NTextField()
-        tf.attributedPlaceholder = NSAttributedString(string: "First name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
+        tf.attributedPlaceholder = NSAttributedString(string: "First name", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
         return tf
     }()
     let lastNameField: UITextField = {
         var tf = NTextField()
-        tf.attributedPlaceholder = NSAttributedString(string: "Last name", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray4,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
+        tf.attributedPlaceholder = NSAttributedString(string: "Last name", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
         return tf
     }()
     func createToolBar() -> UIToolbar{

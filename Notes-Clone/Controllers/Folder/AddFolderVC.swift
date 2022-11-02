@@ -21,7 +21,7 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.dark
+        view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
         folderTextField.delegate = self
@@ -41,9 +41,8 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
     // MARK: Properties -
     let folderTextField: UITextField = {
         var tf = NTextField()
-        tf.attributedPlaceholder = NSAttributedString(string: "Enter name of folder", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
+        tf.attributedPlaceholder = NSAttributedString(string: "Enter name of folder", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
         tf.text = "New Folder"
-        tf.backgroundColor = .systemGray3
         tf.textAlignment = .left
         tf.isHighlighted = true
         return tf
@@ -66,10 +65,8 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
     }()
     lazy var categoryCollectionView: UICollectionView = {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
         cv.setCollectionViewLayout(layout, animated: false)
@@ -100,6 +97,7 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
         view.addSubview(categoryCollectionView)
         
         titleLabel.attributedText = setupAttributedText("Suggested Categories", "You'll see categories when you create a new \nfolder or a note")
+        titleLabel.setLineHeight(lineHeight: 1)
     }
     func setupContraints(){
         bottomButtonConstraint =  saveBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20)
@@ -115,60 +113,12 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
             categoryCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             categoryCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             categoryCollectionView.heightAnchor.constraint(equalToConstant: 175),
+//            categoryCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             saveBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             saveBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             saveBtn.heightAnchor.constraint(equalToConstant: 52),
         ])
-    }
-    func configureNavBar(){
-        let height: CGFloat = 90.0
-        let navbar = UINavigationBar(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: height))
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = Color.dark
-        appearance.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 17)!]
-        navbar.standardAppearance = appearance
-        navbar.scrollEdgeAppearance = appearance
-        
-        navbar.setBackgroundImage(UIImage(), for: .default)
-        navbar.shadowImage = UIImage()
-        navbar.isTranslucent = true
-        navbar.translatesAutoresizingMaskIntoConstraints = false
-
-        navbar.delegate = self
-        let navbarItem = UINavigationItem()
-        navbarItem.title = "Create a folder"
-        
-        let exitButton = UIButton(frame: .zero)
-        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .bold)), for: .normal)
-        exitButton.tintColor = .white
-        exitButton.translatesAutoresizingMaskIntoConstraints = false
-        exitButton.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
-        exitButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        navbarItem.leftBarButtonItem = UIBarButtonItem(customView: exitButton)
-        
-        
-        navbar.items = [navbarItem]
-        view.addSubview(navbar)
-
-        
-        NSLayoutConstraint.activate([
-            exitButton.heightAnchor.constraint(equalToConstant: 24.0),
-            exitButton.widthAnchor.constraint(equalToConstant: 24.0),
-            
-            navbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0),
-            navbar.heightAnchor.constraint(equalToConstant: 50.0),
-            navbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            navbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            folderTextField.topAnchor.constraint(equalTo: navbar.bottomAnchor, constant: 30),
-            folderTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            folderTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            folderTextField.heightAnchor.constraint(equalToConstant: 52),
-        ])
-    }
-    @objc func closeVC(){
-        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -249,16 +199,17 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = categories[indexPath.row]
+//        let width = self.estimatedFrame(text: item.title, font: UIFont(name: Font.medium.rawValue, size: 14)!).width
         let itemSize = item.title.size(withAttributes: [NSAttributedString.Key.font:UIFont(name: Font.medium.rawValue, size: 14)!])
-        return CGSize(width: itemSize.width, height: 40)
+        return CGSize(width: itemSize.width + 5, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -269,9 +220,66 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
         print(item.title)
 
     }
+    func estimatedFrame(text: String, font: UIFont) -> CGRect {
+        let size = CGSize(width: 200, height: 1000) // temporary size
+        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: font], context: nil)
+    }
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
-        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: UIColor.white,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
-        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: UIColor.systemGray2,.font: UIFont(name: Font.medium.rawValue, size: 14)!]))
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.text_color_heading,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
+        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.text_color_normal,.font: UIFont(name: Font.medium.rawValue, size: 15)!]))
         return text
+    }
+}
+
+extension AddFolderVC {
+    func configureNavBar(){
+        let height: CGFloat = 90.0
+        let navbar = UINavigationBar(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: height))
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = Color.bg
+        appearance.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: Color.dark, NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 17)!]
+        navbar.standardAppearance = appearance
+        navbar.scrollEdgeAppearance = appearance
+        
+        navbar.setBackgroundImage(UIImage(), for: .default)
+        navbar.shadowImage = UIImage()
+        navbar.isTranslucent = true
+        navbar.translatesAutoresizingMaskIntoConstraints = false
+
+        navbar.delegate = self
+        let navbarItem = UINavigationItem()
+        navbarItem.title = "Create a folder"
+        
+        let exitButton = UIButton(frame: .zero)
+        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .bold)), for: .normal)
+        exitButton.tintColor = Color.dark
+        exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
+        exitButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        navbarItem.leftBarButtonItem = UIBarButtonItem(customView: exitButton)
+        
+        
+        navbar.items = [navbarItem]
+        view.addSubview(navbar)
+
+        
+        NSLayoutConstraint.activate([
+            exitButton.heightAnchor.constraint(equalToConstant: 24.0),
+            exitButton.widthAnchor.constraint(equalToConstant: 24.0),
+            
+            navbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0),
+            navbar.heightAnchor.constraint(equalToConstant: 50.0),
+            navbar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            navbar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            folderTextField.topAnchor.constraint(equalTo: navbar.bottomAnchor, constant: 30),
+            folderTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            folderTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            folderTextField.heightAnchor.constraint(equalToConstant: 52),
+        ])
+    }
+    @objc func closeVC(){
+        dismiss(animated: true, completion: nil)
     }
 }

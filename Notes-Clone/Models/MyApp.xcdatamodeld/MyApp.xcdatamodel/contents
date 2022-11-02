@@ -13,11 +13,12 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="heading" optional="YES" attributeType="String"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isStarred" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="lastUpdated" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <relationship name="folder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Folder" inverseName="notes" inverseEntity="Folder"/>
     </entity>
     <elements>
         <element name="Folder" positionX="-466.6873168945312" positionY="-164.298828125" width="103.9286499023438" height="119"/>
-        <element name="Note" positionX="-123.7020263671875" positionY="-83.2774658203125" width="128" height="119"/>
+        <element name="Note" positionX="-123.7020263671875" positionY="-83.2774658203125" width="128" height="148"/>
     </elements>
 </model>

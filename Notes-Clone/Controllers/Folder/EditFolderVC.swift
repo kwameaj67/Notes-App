@@ -36,7 +36,7 @@ class EditFolderVC: UIViewController, UINavigationBarDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Color.dark
+        view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
         folderTextField.delegate = self
@@ -58,9 +58,8 @@ class EditFolderVC: UIViewController, UINavigationBarDelegate {
     // MARK: Properties -
     let folderTextField: UITextField = {
         var tf = NTextField()
-        tf.attributedPlaceholder = NSAttributedString(string: "Enter name of folder", attributes: [NSAttributedString.Key.foregroundColor: UIColor.systemGray,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
+        tf.attributedPlaceholder = NSAttributedString(string: "Enter name of folder", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
         tf.text = "New Folder"
-        tf.backgroundColor = .systemGray3
         tf.textAlignment = .left
         tf.isHighlighted = true
         return tf
@@ -83,10 +82,8 @@ class EditFolderVC: UIViewController, UINavigationBarDelegate {
     }()
     lazy var categoryCollectionView: UICollectionView = {
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
         layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 10
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
         cv.setCollectionViewLayout(layout, animated: false)
@@ -160,8 +157,8 @@ extension EditFolderVC {
         let height: CGFloat = 90.0
         let navbar = UINavigationBar(frame: CGRect(x: 0, y: 20, width: UIScreen.main.bounds.width, height: height))
         let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = Color.dark
-        appearance.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: UIColor.white, NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 17)!]
+        appearance.backgroundColor = Color.bg
+        appearance.titleTextAttributes =  [NSAttributedString.Key.foregroundColor: Color.dark, NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 17)!]
         navbar.standardAppearance = appearance
         navbar.scrollEdgeAppearance = appearance
         
@@ -176,7 +173,7 @@ extension EditFolderVC {
         
         let exitButton = UIButton(frame: .zero)
         exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .bold)), for: .normal)
-        exitButton.tintColor = .white
+        exitButton.tintColor = Color.dark
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
         exitButton.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -233,11 +230,11 @@ extension EditFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 0
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -254,8 +251,8 @@ extension EditFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UIC
         cell.layer.backgroundColor = UIColor.clear.cgColor
     }
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
-        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: UIColor.white,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
-        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: UIColor.systemGray2,.font: UIFont(name: Font.medium.rawValue, size: 14)!]))
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.text_color_heading,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
+        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.text_color_normal,.font: UIFont(name: Font.medium.rawValue, size: 15)!]))
         return text
     }
 }

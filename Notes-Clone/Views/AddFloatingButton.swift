@@ -15,7 +15,6 @@ class AddFloatingButton: UIButton {
         let image = UIImage(systemName: "plus",withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold))
         setImage(image, for: .normal)
         tintColor = .white
-        titleLabel?.font = UIFont(name: "", size: 16)
         backgroundColor = Color.red
         layer.cornerRadius = 20
         animatePulse()

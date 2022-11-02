@@ -32,8 +32,8 @@ class FolderVC: UIViewController {
     private let viewModel = FolderViewModel()
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "folders"
-        view.backgroundColor = Color.dark
+        title = "My folders"
+        view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
         getFolderData()
@@ -79,7 +79,7 @@ class FolderVC: UIViewController {
         tv.tableHeaderView = UIView()
         tv.tableFooterView = UIView()
         tv.bounces = true
-        tv.backgroundColor = Color.dark
+        tv.backgroundColor = .clear
         tv.separatorInset = UIEdgeInsets.zero
         tv.isHidden = true
         tv.alpha = 0
@@ -195,11 +195,12 @@ extension FolderVC: UITableViewDataSource {
 extension FolderVC {
     func configureNavBar(){
 
-        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 20.0)!,NSAttributedString.Key.foregroundColor: UIColor.white]
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: UIColor.white]
+        self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
+        self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationItem.largeTitleDisplayMode = .always
-        self.navigationController?.navigationBar.largeContentTitle = "folders"
+        self.navigationController?.navigationBar.largeContentTitle = "My folders"
+        self.navigationController?.navigationItem.title = "My foldlers"
         
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
