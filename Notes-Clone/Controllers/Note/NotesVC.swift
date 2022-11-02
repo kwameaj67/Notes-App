@@ -59,9 +59,12 @@ class NotesVC: UIViewController {
     }()
     
     let addButton: UIButton = {
-        var btn = AddFloatingButton()
-        let image = UIImage(systemName: "highlighter",withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold))
-        btn.setImage(image, for: .normal)
+        var btn = UIButton()
+        btn.titleLabel?.font = UIFont(name: Font.semi_bold.rawValue, size: 16)
+        btn.setTitle("Create note 📝", for: .normal)
+        btn.titleLabel?.textColor = .white
+        btn.layer.cornerRadius = 45/2
+        btn.backgroundColor = Color.red
         btn.addTarget(self, action: #selector(createNewNote), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
@@ -93,7 +96,13 @@ class NotesVC: UIViewController {
         noteDetailVC.note = nil
         navigationController?.pushViewController(noteDetailVC, animated: true)
     }
-    @objc func presentCreateNoteVC(note: Note){
+    @objc func didTapNoteCell(note: Note){
+        noteDetailVC.delegate = self
+        noteDetailVC.folder = folder
+        noteDetailVC.note = note
+        navigationController?.pushViewController(noteDetailVC, animated: true)
+    }
+     func didTapEditOption(note: Note){
         noteDetailVC.delegate = self
         noteDetailVC.folder = folder
         noteDetailVC.note = note
@@ -141,10 +150,10 @@ class NotesVC: UIViewController {
             notesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -4),
             notesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),
-            addButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addButton.heightAnchor.constraint(equalToConstant: 90),
-            addButton.widthAnchor.constraint(equalToConstant: 90),
+            addButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addButton.heightAnchor.constraint(equalToConstant: 45),
+            addButton.widthAnchor.constraint(equalToConstant: 200),
         ])
     }
 }
@@ -165,7 +174,7 @@ extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let noteObject = notes[indexPath.row]
-        presentCreateNoteVC(note: noteObject)
+        didTapNoteCell(note: noteObject)
     }
 }
 extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
@@ -191,6 +200,9 @@ extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
     
     func editItem() {
         dismiss(animated: true, completion: nil)
+        let item = notesIndexPath
+        let noteObject  = self.notes[item.row]
+        didTapEditOption(note: noteObject)
     }
     
 }
