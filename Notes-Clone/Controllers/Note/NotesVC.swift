@@ -6,41 +6,46 @@
 //
 
 import UIKit
+import BottomSheet
+import Combine
 
 class NotesVC: UIViewController {
-    var notesData = NoteType.data {
-        didSet{
-            notesCollectionView.reloadData()
-            if notesData.count > 0 {
-                notesCollectionView.isHidden = false
-                notesCollectionView.alpha = 1
-            }
-            else {
-                emptyLabel.isHidden = false
-                emptyLabel.alpha = 1
-            }
-        }
-    }
-    var notes : Note!
-    var folderTitle: String? = "" {
-        didSet{
-            self.navigationController?.navigationBar.largeContentTitle = folderTitle
-            title = folderTitle
-        }
-    }
     
+    private var cancellables: AnyCancellable?
+    
+    let childVC = BottomSheetVC()
+    let noteDetailVC = NoteDetailsVC()
+    let viewModel = FolderViewModel()
+    let noteViewModel = NoteViewModel()
+    private var notes:[Note] = [] {
+        didSet{
+            DispatchQueue.main.async {
+                self.notesCollectionView.reloadData()
+                self.toggleViews()
+            }
+        }
+    }
+
+    var folder: Folder! {
+        didSet{
+            self.navigationController?.navigationBar.largeContentTitle = folder?.heading
+            title = folder?.heading
+        }
+    }
+    var notesIndexPath: IndexPath = IndexPath(row: 0, section: 1)
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.bg
         setupViews()
         setupContraints()
         configureBackButton()
+        toggleViews()
+        getNotes()
        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavBar()
-       
     }
     // MARK: Properties -
     let emptyLabel: UILabel = {
@@ -55,7 +60,9 @@ class NotesVC: UIViewController {
     
     let addButton: UIButton = {
         var btn = AddFloatingButton()
-        btn.addTarget(self, action: #selector(moveToNoteVC), for: .touchUpInside)
+        let image = UIImage(systemName: "highlighter",withConfiguration: UIImage.SymbolConfiguration(pointSize: 20, weight: .semibold))
+        btn.setImage(image, for: .normal)
+        btn.addTarget(self, action: #selector(createNewNote), for: .touchUpInside)
         btn.translatesAutoresizingMaskIntoConstraints = false
         return btn
     }()
@@ -66,17 +73,55 @@ class NotesVC: UIViewController {
         cv.dataSource = self
         cv.isScrollEnabled = true
         cv.bounces = true
-//        cv.isHidden = true
-//        cv.alpha = 0
+        cv.isHidden = true
+        cv.alpha = 0
         cv.backgroundColor = .clear
         cv.showsVerticalScrollIndicator = false
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
-    @objc func moveToNoteVC(){
-        let vc = NoteDetailsVC()
-//        vc.delegate = self
-        navigationController?.pushViewController(vc, animated: true)
+    func getNotes(){
+        viewModel.getNotes(folder: folder)
+        cancellables = viewModel.$notes.sink(receiveValue: { notes in
+            self.notes = notes
+            self.notes.reverse()
+        })
+    }
+    @objc func createNewNote(){
+        noteDetailVC.delegate = self
+        noteDetailVC.folder = folder
+        noteDetailVC.note = nil
+        navigationController?.pushViewController(noteDetailVC, animated: true)
+    }
+    @objc func presentCreateNoteVC(note: Note){
+        noteDetailVC.delegate = self
+        noteDetailVC.folder = folder
+        noteDetailVC.note = note
+        navigationController?.pushViewController(noteDetailVC, animated: true)
+    }
+    func toggleViews(){
+        if notes.count > 0 {
+            notesCollectionView.isHidden = false
+            notesCollectionView.alpha = 1
+            
+            emptyLabel.isHidden = true
+            emptyLabel.alpha = 0
+        }
+        else {
+            emptyLabel.isHidden = false
+            emptyLabel.alpha = 1
+        }
+    }
+    @objc func didTapMoreImage(_ sender: UIButton){
+        childVC.preferredContentSize  = CGSize(width: Int(view.frame.width), height: 180)
+        childVC.delegate = self
+        presentBottomSheet(
+            viewController: childVC,
+            configuration:  BottomSheetConfiguration(
+                cornerRadius: 30,
+                pullBarConfiguration: .visible(.init(height: 20)),
+                shadowConfiguration: .init(backgroundColor: UIColor.black.withAlphaComponent(0.6))
+            ))
     }
     func setupViews(){
         view.addSubview(notesCollectionView)
@@ -102,27 +147,84 @@ class NotesVC: UIViewController {
             addButton.widthAnchor.constraint(equalToConstant: 90),
         ])
     }
+}
+
+extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return notes.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionCell.reusableId, for: indexPath) as! NoteCollectionCell
+        cell.data = notes[indexPath.row]
+        cell.delegate = self
+        cell.controller = self
+        cell.bodyLabel.setLineHeight(lineHeight: 1.4)
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let noteObject = notes[indexPath.row]
+        presentCreateNoteVC(note: noteObject)
+    }
+}
+extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
+    func getCellPressed(in cell: UICollectionViewCell) {
+        guard let indexPath = notesCollectionView.indexPath(for: cell) else { return }
+        self.notesIndexPath = IndexPath(row: indexPath.row, section: 0)
+    }
+    
+    func deleteItem() {
+        // get note object to delete
+        let item = notesIndexPath
+        let noteObject  = self.notes[item.row]
+        // delete object
+        noteViewModel.deleteNote(note: noteObject)
+        // remove note from row & tableview
+        notes.remove(at:  item.row)
+        notesCollectionView.deleteItems(at: [notesIndexPath])
+        DispatchQueue.main.async {
+            self.notesCollectionView.reloadData()
+        }
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func editItem() {
+        dismiss(animated: true, completion: nil)
+    }
+    
+}
+
+extension NotesVC: SaveNoteDelegate{
+    func saveNote(isSaved: Bool) {
+        if isSaved{
+            getNotes()
+        }
+    }
+}
+
+extension NotesVC {
     func configureCompositionalLayout(){
 
-        let groupOneRightItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/2)))
+        let groupOneLeftItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/2)))
+        groupOneLeftItem.contentInsets = .init(top: 8, leading: 6, bottom: 6, trailing: 6)
+        
+        let groupOneRightItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1)))
         groupOneRightItem.contentInsets = .init(top: 8, leading: 6, bottom: 0, trailing: 6)
         
-        let groupOneLeftItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1)))
-        groupOneLeftItem.contentInsets = .init(top: 8, leading: 6, bottom: 0, trailing: 6)
+        let innerLeftGroupOne = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1)), subitems: [groupOneLeftItem])
         
-        let innerLeftGroupOne = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1)), subitems: [groupOneRightItem])
+        let groupOne = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(400)), subitems: [innerLeftGroupOne,groupOneRightItem])
         
-        let groupOne = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(400)), subitems: [innerLeftGroupOne,groupOneLeftItem])
-        
-        let groupTwo = NSCollectionLayoutItem.init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/3)))
+        let groupTwo = NSCollectionLayoutItem.init(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200)))
         groupTwo.contentInsets = .init(top: 8, leading: 6, bottom: 0, trailing: 6)
         
         let groupThreeItem = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(1/2), heightDimension: .fractionalHeight(1)))
         groupThreeItem.contentInsets = .init(top: 8, leading: 6, bottom: 0, trailing: 6)
         
-        let groupThree = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .fractionalHeight(1/2)), subitems: [groupThreeItem])
+        let groupThree = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(200)), subitems: [groupThreeItem])
         
-        let containerGroup = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(600)), subitems: [groupOne,groupTwo,groupThree])
+        let containerGroup = NSCollectionLayoutGroup.vertical(layoutSize: .init(widthDimension: .fractionalWidth(1), heightDimension: .absolute(800)), subitems: [groupOne,groupTwo,groupThree])
         
         let section = NSCollectionLayoutSection.init(group: containerGroup)
         let config = UICollectionViewCompositionalLayoutConfiguration()
@@ -132,27 +234,6 @@ class NotesVC: UIViewController {
         notesCollectionView.setCollectionViewLayout(layout, animated: true)
       
     }
-}
-
-extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return notesData.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionCell.reusableId, for: indexPath) as! NoteCollectionCell
-        cell.data = notesData[indexPath.row]
-        cell.bodyLabel.setLineHeight(lineHeight: 1.4)
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let _ = notesData[indexPath.row]
-        moveToNoteVC()
-    }
-}
-
-extension NotesVC {
     func configureNavBar(){
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 22.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
@@ -162,19 +243,6 @@ extension NotesVC {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
-        
-        let searchBtn = UIButton(type: .system)
-        let image = UIImage(named: "search")?.withRenderingMode(.alwaysTemplate).withConfiguration(UIImage.SymbolConfiguration(weight: .medium))
-        searchBtn.setImage(image, for: .normal)
-        searchBtn.tintColor = Color.dark
-        searchBtn.adjustsImageWhenHighlighted = false
-        searchBtn.frame = CGRect(x: 0, y: 0, width: 40, height: 20)
-        searchBtn.backgroundColor = .clear
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchBtn)
-        
-        let rightBarItem = UIBarButtonItem()
-        rightBarItem.customView = searchBtn
-        navigationItem.setRightBarButtonItems([rightBarItem], animated: true)
     }
     
     func configureBackButton(){
