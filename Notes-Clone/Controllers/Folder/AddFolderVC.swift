@@ -113,7 +113,6 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
             categoryCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             categoryCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             categoryCollectionView.heightAnchor.constraint(equalToConstant: 175),
-//            categoryCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
             saveBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             saveBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
@@ -201,7 +200,7 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
         let item = categories[indexPath.row]
 //        let width = self.estimatedFrame(text: item.title, font: UIFont(name: Font.medium.rawValue, size: 14)!).width
         let itemSize = item.title.size(withAttributes: [NSAttributedString.Key.font:UIFont(name: Font.medium.rawValue, size: 14)!])
-        return CGSize(width: itemSize.width + 5, height: 40)
+        return CGSize(width: itemSize.width, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -220,11 +219,11 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
         print(item.title)
 
     }
-    func estimatedFrame(text: String, font: UIFont) -> CGRect {
-        let size = CGSize(width: 200, height: 1000) // temporary size
-        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: font], context: nil)
-    }
+//    func estimatedFrame(text: String, font: UIFont) -> CGRect {
+//        let size = CGSize(width: 200, height: 1000) // temporary size
+//        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
+//        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: font], context: nil)
+//    }
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
         let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.text_color_heading,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
         text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.text_color_normal,.font: UIFont(name: Font.medium.rawValue, size: 15)!]))

@@ -22,23 +22,7 @@ class FolderCell: UITableViewCell {
     
     var data: Folder? {
         didSet{
-            guard let item = data else { return }
-            guard let heading = item.heading else { return }
-            guard let noteCount = item.notes?.count else { return }
-            guard let date = item.createdAt else { return }
-            guard let category = item.category else { return }
-            
-            titleLabel.text = heading
-            countLabel.text = "\(noteCount)"
-            dateLabel.text = "\(date.timeAgoDisplay())"
-            
-            if category.isEmpty {
-                categoryContainer.isHidden = true
-                categoryContainer.alpha = 0
-            } else {
-                categoryLabel.text = category
-            }
-            
+            manageData()
         }
     }
     static let reusableId = "FolderCell"
@@ -64,17 +48,7 @@ class FolderCell: UITableViewCell {
     }()
     let titleLabel: UILabel = {
         let lb = UILabel()
-        lb.font = UIFont(name: Font.semi_bold.rawValue, size: 18)
-        lb.textColor = Color.text_color_heading
-        lb.numberOfLines = 0
-        lb.translatesAutoresizingMaskIntoConstraints = false
-        return lb
-    }()
-    let countLabel: UILabel = {
-        let lb = UILabel()
-        lb.font = UIFont(name: Font.semi_bold.rawValue, size: 26)
-        lb.textColor = .white
-        lb.numberOfLines = 0
+        lb.numberOfLines = 1
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
@@ -135,7 +109,7 @@ class FolderCell: UITableViewCell {
             
             titleLabel.topAnchor.constraint(equalTo: container.topAnchor, constant: 20),
             titleLabel.leadingAnchor.constraint(equalTo: container.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: moreButton.leadingAnchor, constant: -20),
+            titleLabel.trailingAnchor.constraint(equalTo: moreButton.leadingAnchor, constant: -10),
             
             moreButton.centerYAnchor.constraint(equalTo: titleLabel.centerYAnchor),
             moreButton.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
@@ -150,8 +124,31 @@ class FolderCell: UITableViewCell {
             categoryLabel.leadingAnchor.constraint(equalTo: categoryContainer.leadingAnchor,constant: 15),
             categoryLabel.trailingAnchor.constraint(equalTo: categoryContainer.trailingAnchor,constant: -15),
             
-            dateLabel.bottomAnchor.constraint(equalTo: container.bottomAnchor, constant: -20),
+            dateLabel.centerYAnchor.constraint(equalTo: categoryContainer.centerYAnchor),
             dateLabel.trailingAnchor.constraint(equalTo: container.trailingAnchor, constant: -20),
         ])
-    }  
+    }
+    func manageData(){
+        guard let item = data else { return }
+        guard let heading = item.heading else { return }
+        guard let noteCount = item.notes?.count else { return }
+        guard let date = item.createdAt else { return }
+        guard let category = item.category else { return }
+        
+        titleLabel.attributedText = setupAttributedText(heading, noteCount)
+        dateLabel.text = "\(date.timeAgoDisplay())"
+
+        
+        if category.isEmpty {
+            categoryContainer.isHidden = true
+            categoryContainer.alpha = 0
+        } else {
+            categoryLabel.text = category
+        }
+    }
+    func setupAttributedText(_ title: String,_ noteCount: Int) -> NSAttributedString{
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.text_color_heading,.font: UIFont(name: Font.semi_bold.rawValue, size: 18)!])
+        text.append(NSAttributedString(string: " (\(noteCount))", attributes: [.foregroundColor: Color.text_color_normal,.font: UIFont(name: Font.medium.rawValue, size: 14)!]))
+        return text
+    }
 }
