@@ -138,6 +138,7 @@ class FolderVC: UIViewController {
     @objc func didTapMoreImage(_ sender: UIButton){
         childVC.preferredContentSize  = CGSize(width: Int(view.frame.width), height: 180)
         childVC.delegate = self
+        childVC.options = BottomSheetOptionType.folderData
         presentBottomSheet(
             viewController: childVC,
             configuration:  BottomSheetConfiguration(

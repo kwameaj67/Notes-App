@@ -13,8 +13,7 @@ protocol BottomSheetItemDelegate: AnyObject {
 }
 
 class BottomSheetVC: UIViewController {
-    
-    let options = FolderOptionType.data
+    var options:[BottomSheetOptionType] = []
     weak var delegate : BottomSheetItemDelegate?
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,7 +26,7 @@ class BottomSheetVC: UIViewController {
     
     lazy var optionTableView: UITableView = {
         let tb = UITableView(frame: .zero,style: .plain)
-        tb.register(FolderOptionCell.self, forCellReuseIdentifier: FolderOptionCell.reusableId)
+        tb.register(BottomSheetOptionCell.self, forCellReuseIdentifier: BottomSheetOptionCell.reusableId)
         tb.delegate = self
         tb.dataSource = self
         tb.allowsMultipleSelection = false
@@ -63,9 +62,9 @@ extension BottomSheetVC: UITableViewDataSource, UITableViewDelegate{
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FolderOptionCell.reusableId, for: indexPath) as! FolderOptionCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: BottomSheetOptionCell.reusableId, for: indexPath) as! BottomSheetOptionCell
         let item = options[indexPath.row]
-        cell.setupCell(item: item)
+        cell.data = item
         cell.selectionStyle = .none
         return cell
     }

@@ -78,13 +78,17 @@ struct NoteType{
     ]
 }
 
-struct FolderOptionType {
+struct BottomSheetOptionType {
     var name: String
     var icon: String
     
+    static let folderData: [BottomSheetOptionType] = [
+        BottomSheetOptionType(name: "Edit folder", icon: "edit"),
+        BottomSheetOptionType(name: "Delete folder", icon: "trash"),
+    ]
     
-    static let data: [FolderOptionType] = [
-        FolderOptionType(name: "Edit folder", icon: "edit"),
-        FolderOptionType(name: "Delete folder", icon: "trash"),
+    static let noteData: [BottomSheetOptionType] = [
+        BottomSheetOptionType(name: "Edit note", icon: "edit"),
+        BottomSheetOptionType(name: "Delete note", icon: "trash"),
     ]
 }

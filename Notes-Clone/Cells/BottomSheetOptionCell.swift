@@ -7,11 +7,16 @@
 
 import UIKit
 
-class FolderOptionCell: UITableViewCell {
-
-    static let reusableId = "FolderOptionCell"
+class BottomSheetOptionCell: UITableViewCell {
+    
+    var data: BottomSheetOptionType? {
+        didSet{
+            manageData()
+        }
+    }
+    static let reusableId = "BottomSheetOptionCell"
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: FolderOptionCell.reusableId)
+        super.init(style: style, reuseIdentifier: BottomSheetOptionCell.reusableId)
         setupViews()
         setupContraints()
         backgroundColor = .clear
@@ -53,7 +58,8 @@ class FolderOptionCell: UITableViewCell {
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -30),
         ])
     }
-    func setupCell(item: FolderOptionType){
+    func manageData(){
+        guard let item = data else { return }
         titleLabel.text = item.name
         icon.image = UIImage(named: item.icon)?.withRenderingMode(.alwaysTemplate)
     }
