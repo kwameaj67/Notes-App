@@ -17,11 +17,22 @@ class NotesVC: UIViewController {
     let noteDetailVC = NoteDetailsVC()
     let viewModel = FolderViewModel()
     let noteViewModel = NoteViewModel()
+    private var isSearching: Bool = false
+    private var searchedNotes: [Note] = [] {
+        didSet{
+            DispatchQueue.main.async {
+                self.notesCollectionView.reloadData()
+                if self.isSearching{
+                    self.toggleViews(data: self.searchedNotes)
+                }
+            }
+        }
+    }
     private var notes:[Note] = [] {
         didSet{
             DispatchQueue.main.async {
                 self.notesCollectionView.reloadData()
-                self.toggleViews()
+                self.toggleViews(data: self.notes)
             }
         }
     }
@@ -39,15 +50,18 @@ class NotesVC: UIViewController {
         setupViews()
         setupContraints()
         configureBackButton()
-        toggleViews()
+        toggleViews(data: self.notes)
         getNotes()
+        
        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavBar()
+        configureSearchBar()
     }
     // MARK: Properties -
+    let searchBarController = UISearchController()
     let emptyLabel: UILabel = {
         let lb = UILabel()
         lb.numberOfLines = 0
@@ -108,8 +122,8 @@ class NotesVC: UIViewController {
         noteDetailVC.note = note
         navigationController?.pushViewController(noteDetailVC, animated: true)
     }
-    func toggleViews(){
-        if notes.count > 0 {
+    func toggleViews(data: [Note]){
+        if data.count > 0 {
             notesCollectionView.isHidden = false
             notesCollectionView.alpha = 1
             
@@ -161,12 +175,23 @@ class NotesVC: UIViewController {
 
 extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return notes.count
+        if isSearching{
+            return searchedNotes.count
+        }else {
+            return notes.count
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: NoteCollectionCell.reusableId, for: indexPath) as! NoteCollectionCell
-        cell.data = notes[indexPath.row]
+        let item: Note
+        if isSearching{
+            item = searchedNotes[indexPath.row]
+        }else {
+            item = notes[indexPath.row]
+        }
+        cell.data = item
         cell.delegate = self
         cell.controller = self
         cell.bodyLabel.setLineHeight(lineHeight: 1.4)
@@ -174,9 +199,16 @@ extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let noteObject = notes[indexPath.row]
+        let noteObject: Note
+        if isSearching {
+            noteObject = searchedNotes[indexPath.row]
+        } else {
+            noteObject = notes[indexPath.row]
+        }
         didTapNoteCell(note: noteObject)
     }
+    
+   
 }
 extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
     func getCellPressed(in cell: UICollectionViewCell) {
@@ -264,9 +296,48 @@ extension NotesVC {
         navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: .none, action: .none)
         navigationController?.navigationBar.tintColor = Color.dark
     }
+    func configureSearchBar(){
+        let searchBar = searchBarController.searchBar.searchTextField
+        navigationItem.searchController = searchBarController
+        searchBarController.obscuresBackgroundDuringPresentation = false
+        searchBarController.searchBar.delegate = self
+        searchBarController.delegate = self
+        searchBarController.searchResultsUpdater = self
+        
+        // searchbar properties
+        searchBar.layer.cornerRadius = 15
+        searchBar.font = UIFont(name: Font.medium.rawValue, size: 16)
+        searchBar.textColor = Color.text_color_heading
+        searchBar.clipsToBounds = true
+        searchBar.clearButtonMode = .whileEditing
+        searchBar.backgroundColor = Color.pad_bg
+        searchBar.attributedPlaceholder = NSAttributedString(string: "Search notes", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
+    }
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
         let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.dark,.font: UIFont(name: Font.semi_bold.rawValue, size: 18)!])
         text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.dark.withAlphaComponent(0.8),.font: UIFont(name: Font.medium.rawValue, size: 16)!]))
         return text
+    }
+}
+
+extension NotesVC: UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            isSearching = true
+            searchedNotes = notes.filter({ data in
+                data.heading!.lowercased().prefix(searchText.count) == searchText.lowercased()
+            })
+        }
+        else {
+            isSearching = false
+        }
+      
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if let button = searchBar.value(forKey: "cancelButton") as? UIButton {
+            button.titleLabel?.font = UIFont(name: Font.medium.rawValue, size: 14)
+            button.setTitleColor(Color.text_color_heading, for: .normal)
+        }
+        
     }
 }
