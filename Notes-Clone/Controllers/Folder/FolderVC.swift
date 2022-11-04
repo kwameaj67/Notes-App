@@ -11,6 +11,7 @@ import BottomSheet
 
 class FolderVC: UIViewController {
    
+    let userDefaultManager = UserDefaultsManager.shared
     private var cancellables: AnyCancellable?
     let childVC = BottomSheetVC()
     var folderIndexPath: IndexPath = IndexPath(row: 0, section: 0)
@@ -237,6 +238,19 @@ extension FolderVC {
         navigationController?.navigationBar.backIndicatorTransitionMaskImage = backImage
         navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: .none, action: .none)
         navigationController?.navigationBar.tintColor = Color.dark
+        
+        let fullName = userDefaultManager.getUserFullName().getUserInitials()
+        let avatarView = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        avatarView.backgroundColor = Color.dark
+        avatarView.layer.cornerRadius = 40/2
+        avatarView.setTitle(fullName, for: .normal)
+        avatarView.setTitleColor(.white, for: .normal)
+        avatarView.titleLabel?.font = UIFont(name: Font.semi_bold.rawValue, size: 18)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
+        
+        let rightBarItem = UIBarButtonItem()
+        rightBarItem.customView = avatarView
+        navigationItem.setRightBarButtonItems([rightBarItem], animated: true)
     }
     
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{

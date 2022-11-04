@@ -10,7 +10,6 @@ import Foundation
 extension String {
     
     func getUserInitials() -> String{
-
         let names = self.components(separatedBy: " ")
 
         let firstNameInitials = names[0].prefix(1)
