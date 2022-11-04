@@ -105,17 +105,9 @@ class NameVC: UIViewController {
         return btn
     }()
     @objc func buttonTapped(){
-        guard let firstName = firstNameField.text else { return }
-        guard let lastName = lastNameField.text else { return }
-        
-        if firstName.isEmpty || lastName.isEmpty {
-            print("Fields must be filled")
-        }else{
-            let vc = PasswordVC()
-            userDefaultManager.setUserFullName(fullName: fullName)
-            navigationController?.pushViewController(vc, animated: true)
-        }
-       
+        let vc = PasswordVC()
+        userDefaultManager.setUserFullName(fullName: fullName)
+        navigationController?.pushViewController(vc, animated: true)
     }
     @objc func onDone(){
         if firstNameField.isEditing{
@@ -194,16 +186,10 @@ extension NameVC: UITextFieldDelegate {
            
         }
     }
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        var text:String = ""
-        /// fix bugs
-//        if firstNameField.isFirstResponder{
-//            text = (firstNameField.text! as NSString).replacingCharacters(in: range, with: string)
-//        }
-        
-        text = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-
-        if !text.isEmpty{
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        guard let firstname = firstNameField.text else { return }
+        guard let lastname = lastNameField.text else { return }
+        if !firstname.isEmpty && !lastname.isEmpty{
             continueButton.isUserInteractionEnabled = true
             UIView.animate(withDuration: 0.2) {
                 self.continueButton.alpha = 1
@@ -215,8 +201,8 @@ extension NameVC: UITextFieldDelegate {
             }
            
         }
-        return true
     }
+
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
         continueButton.isUserInteractionEnabled = false
         UIView.animate(withDuration: 0.2) {
