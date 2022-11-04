@@ -14,19 +14,23 @@ class FolderVC: UIViewController {
     private var cancellables: AnyCancellable?
     let childVC = BottomSheetVC()
     var folderIndexPath: IndexPath = IndexPath(row: 0, section: 0)
+    private var isSearching: Bool = false
+    private var searchedFolders:[Folder] = [] {
+        didSet{
+            DispatchQueue.main.async {
+                self.folderTableView.reloadData()
+            }
+            if isSearching{
+                toggleViews(data: self.searchedFolders)
+            }
+        }
+    }
     private var folders:[Folder] = [] {
         didSet{
             DispatchQueue.main.async {
                 self.folderTableView.reloadData()
             }
-            if folders.count > 0 {
-                folderTableView.isHidden = false
-                folderTableView.alpha = 1
-            }
-            else {
-                emptyLabel.isHidden = false
-                emptyLabel.alpha = 1
-            }
+            toggleViews(data: self.folders)
         }
     }
     private let viewModel = FolderViewModel()
@@ -37,6 +41,8 @@ class FolderVC: UIViewController {
         setupContraints()
         getFolderData()
         configureBackButton()
+        configureSearchBar()
+        toggleViews(data: folders)
         
     }
     override func viewWillAppear(_ animated: Bool) {
@@ -46,6 +52,7 @@ class FolderVC: UIViewController {
         navigationController?.navigationBar.isHidden = false
         folderTableView.reloadData()
     }
+   
     func getFolderData(){
         viewModel.getFolders()
         cancellables = viewModel.$folders.sink { data in
@@ -55,6 +62,7 @@ class FolderVC: UIViewController {
     }
     
     // MARK: Properties -
+    lazy var searchBarController =  UISearchController()
     let emptyLabel: UILabel = {
         let lb = UILabel()
         lb.numberOfLines = 0
@@ -97,7 +105,7 @@ class FolderVC: UIViewController {
         
         emptyLabel.attributedText = setupAttributedText("Wow, such empty 😬", "You have no folders created")
     }
-    
+  
     func setupContraints(){
         NSLayoutConstraint.activate([
             emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
@@ -147,25 +155,30 @@ class FolderVC: UIViewController {
                 shadowConfiguration: .init(backgroundColor: UIColor.black.withAlphaComponent(0.6))
             ))
     }
+    func toggleViews(data: [Folder]){
+        if data.count > 0 {
+            folderTableView.isHidden = false
+            folderTableView.alpha = 1
+            
+            emptyLabel.isHidden = true
+            emptyLabel.alpha = 0
+        }
+        else {
+            emptyLabel.isHidden = false
+            emptyLabel.alpha = 1
+        }
+    }
 }
 
 extension FolderVC:UITableViewDelegate {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        view.backgroundColor = view.backgroundColor
-        return view
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 15
-    }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let folder = folders[indexPath.row]
+        let folder: Folder
+        if isSearching {
+            folder = searchedFolders[indexPath.row]
+        }else {
+            folder = folders[indexPath.row]
+        }
         presentNoteVC(folder: folder)
     }
     
@@ -178,12 +191,23 @@ extension FolderVC:UITableViewDelegate {
 extension FolderVC: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return folders.count
+        if isSearching {
+            return searchedFolders.count
+        }else {
+            return folders.count
+        }
+       
     }
    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FolderCell.reusableId, for: indexPath) as! FolderCell
-        cell.data = folders[indexPath.row]
+        let item: Folder
+        if isSearching {
+            item = searchedFolders[indexPath.row]
+        }else {
+            item = folders[indexPath.row]
+        }
+        cell.data = item
         cell.delegate = self
         cell.controller = self
         cell.selectionStyle = .none
@@ -216,9 +240,26 @@ extension FolderVC {
     }
     
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
-        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: UIColor.systemGray2,.font: UIFont(name: Font.semi_bold.rawValue, size: 18)!])
-        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: UIColor.systemGray2.withAlphaComponent(0.8),.font: UIFont(name: Font.medium.rawValue, size: 16)!]))
+        let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.dark,.font: UIFont(name: Font.semi_bold.rawValue, size: 18)!])
+        text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.dark.withAlphaComponent(0.8),.font: UIFont(name: Font.medium.rawValue, size: 16)!]))
         return text
+    }
+    func configureSearchBar(){
+        let searchBar = searchBarController.searchBar.searchTextField
+        navigationItem.searchController = searchBarController
+        searchBarController.obscuresBackgroundDuringPresentation = false
+        searchBarController.searchBar.delegate = self
+        searchBarController.delegate = self
+        searchBarController.searchResultsUpdater = self
+        
+        // searchbar properties
+        searchBar.layer.cornerRadius = 15
+        searchBar.font = UIFont(name: Font.medium.rawValue, size: 16)
+        searchBar.textColor = Color.text_color_heading
+        searchBar.clipsToBounds = true
+        searchBar.clearButtonMode = .whileEditing
+        searchBar.backgroundColor = Color.pad_bg
+        searchBar.attributedPlaceholder = NSAttributedString(string: "Search folders", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
     }
 }
 
@@ -267,4 +308,26 @@ extension FolderVC: SaveFolderDelegate, UpdateFolderDelegate {
         }
     }
     
+}
+
+extension FolderVC: UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating{
+    func updateSearchResults(for searchController: UISearchController) {
+        if let searchText = searchController.searchBar.text {
+            isSearching = true
+            searchedFolders = folders.filter({ data in
+                data.heading!.lowercased().prefix(searchText.count) == searchText.lowercased()
+            })
+        }
+        else {
+            isSearching = false
+        }
+      
+    }
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        if let button = searchBar.value(forKey: "cancelButton") as? UIButton {
+            button.titleLabel?.font = UIFont(name: Font.medium.rawValue, size: 14)
+            button.setTitleColor(Color.text_color_heading, for: .normal)
+        }
+        
+    }
 }
