@@ -287,6 +287,31 @@ extension FolderVC: BottomSheetItemDelegate, OptionCellDelegate {
     
     
     func deleteItem() {
+        dismiss(animated: true, completion: nil)
+        let alert = UIAlertController()
+        self.presentAlertWarning(title: "Delete this folder", message: "Are you really sure you want to delete this folder? You'll lose all related notes") { results in
+            switch results{
+            case.success( let action):
+                if action == .yes{
+                    self.deleteFolder()
+                }
+                else if action == .no{
+                    alert.dismiss(animated: true, completion: nil)
+                }
+            case .failure(_):
+                break
+            }
+            return nil
+        }
+    }
+    func editItem() {
+        dismiss(animated: true, completion: nil)
+        let item = folderIndexPath
+        let folderObject  = self.folders[item.row]
+        presentEditFolderVC(folder: folderObject)
+    }
+    
+    func deleteFolder(){
         // get folder object to delete
         let item = folderIndexPath
         let folderObject  = self.folders[item.row]
@@ -298,13 +323,6 @@ extension FolderVC: BottomSheetItemDelegate, OptionCellDelegate {
         DispatchQueue.main.async {
             self.folderTableView.reloadData()
         }
-        dismiss(animated: true, completion: nil)
-    }
-    func editItem() {
-        dismiss(animated: true, completion: nil)
-        let item = folderIndexPath
-        let folderObject  = self.folders[item.row]
-        presentEditFolderVC(folder: folderObject)
     }
 }
 

@@ -216,7 +216,27 @@ extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
         self.notesIndexPath = IndexPath(row: indexPath.row, section: 0)
     }
     
+    
     func deleteItem() {
+        dismiss(animated: true, completion: nil)
+        let alert = UIAlertController()
+        self.presentAlertWarning(title: "Delete this note", message: "Are you really sure you want to delete this note?") { results in
+            switch results{
+            case.success( let action):
+                if action == .yes{
+                    self.deleteNote()
+                }
+                else if action == .no{
+                    alert.dismiss(animated: true, completion: nil)
+                }
+            case .failure(_):
+                break
+            }
+            return nil
+        }
+    }
+    
+    func deleteNote(){
         // get note object to delete
         let item = notesIndexPath
         let noteObject  = self.notes[item.row]
@@ -228,9 +248,7 @@ extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
         DispatchQueue.main.async {
             self.notesCollectionView.reloadData()
         }
-        dismiss(animated: true, completion: nil)
     }
-    
     func editItem() {
         dismiss(animated: true, completion: nil)
         let item = notesIndexPath
