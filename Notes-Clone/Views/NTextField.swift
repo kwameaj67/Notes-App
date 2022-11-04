@@ -13,7 +13,7 @@ class NTextField: UITextField {
         super.init(frame: frame)
         borderStyle = .none
         backgroundColor = Color.pad_bg
-        textColor = Color.text_color_normal
+        textColor = Color.dark
         font = UIFont(name: Font.medium.rawValue, size: 15)
         layer.masksToBounds = true
         layer.borderWidth = 0.0
