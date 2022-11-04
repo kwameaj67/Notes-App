@@ -26,30 +26,16 @@ class NoteCollectionCell: UICollectionViewCell {
         }
     }
 
-    let bg_array = [Color.cell_dark_bg,Color.pale_blue,Color.pale_green,Color.pale_red,Color.pale_green,Color.pale_yellow,Color.pale_orange,Color.pale_violet,Color.pale_purple]
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
         setupContraints()
-        backgroundColor = bg_array.randomElement()
-        if backgroundColor == Color.cell_dark_bg{
-            titleLabel.textColor = .white
-        }
-        else  if [Color.pale_green,Color.pale_red,Color.pale_green,Color.pale_yellow,Color.pale_orange,Color.pale_blue,Color.pale_violet,Color.pale_purple].contains(backgroundColor){
-            bodyLabel.textColor = Color.dark
-        }
-        else {
-            titleLabel.textColor = Color.dark
-        }
-        if backgroundColor == Color.cell_dark_bg{
-            moreButton.tintColor = .white
-        }
-       
+        backgroundColor = Color.pad_bg
         layer.cornerRadius = 20
         clipsToBounds = true
     
     }
+
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -58,6 +44,7 @@ class NoteCollectionCell: UICollectionViewCell {
     let titleLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.semi_bold.rawValue, size: 17)
+        lb.textColor = Color.dark
         lb.numberOfLines = 1
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -65,7 +52,7 @@ class NoteCollectionCell: UICollectionViewCell {
     let bodyLabel: UILabel = {
         let lb = UILabel()
         lb.font = UIFont(name: Font.medium.rawValue, size: 16)
-        lb.textColor = .systemGray2
+        lb.textColor = Color.text_color_normal
         lb.numberOfLines = 10
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
@@ -112,5 +99,20 @@ class NoteCollectionCell: UICollectionViewCell {
         guard let item = data else { return }
         titleLabel.text = item.heading
         bodyLabel.text = item.body
+    }
+    func randomizeCellColor(){
+        let bg_array = [Color.cell_dark_bg,Color.pale_blue,Color.pale_green,Color.pale_red,Color.pale_green,Color.pale_yellow,Color.pale_orange,Color.pale_violet,Color.pale_purple]
+        backgroundColor = bg_array.randomElement()
+        if backgroundColor == Color.cell_dark_bg{
+            titleLabel.textColor = .white
+            bodyLabel.textColor = .white
+            moreButton.tintColor = .white
+        }
+        else  if [Color.pale_green,Color.pale_red,Color.pale_green,Color.pale_yellow,Color.pale_orange,Color.pale_blue,Color.pale_violet,Color.pale_purple].contains(backgroundColor){
+            bodyLabel.textColor = Color.dark
+        }
+        else {
+            titleLabel.textColor = Color.dark
+        }
     }
 }
