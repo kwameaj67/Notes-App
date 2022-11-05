@@ -12,7 +12,7 @@ protocol SaveFolderDelegate: AnyObject {
 }
 class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegate {
     let categories = CategoryType.data
-    var delegate : SaveFolderDelegate?
+    weak var delegate : SaveFolderDelegate?
     
     private let viewModel = FolderViewModel()
     private var isShowingKeyboard:Bool = false
@@ -63,13 +63,23 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
         lb.translatesAutoresizingMaskIntoConstraints = false
         return lb
     }()
+   
+    
     lazy var categoryCollectionView: UICollectionView = {
-        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
+//        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+//        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
+//        layout.scrollDirection = .horizontal
+//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+//        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
+//        cv.setCollectionViewLayout(layout, animated: false)
+        let layout = AlignedCollectionViewFlowLayout(horizontalAlignment: .left, verticalAlignment: .top)
         layout.scrollDirection = .horizontal
-        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
-        cv.setCollectionViewLayout(layout, animated: false)
+        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
+//        layout.estimatedItemSize = CGSize(width: 50, height: 24)
+        layout.minimumLineSpacing = 10
+        layout.minimumInteritemSpacing = 50
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        cv.setCollectionViewLayout(layout, animated: false)
         cv.register(CategoryTypeCell.self, forCellWithReuseIdentifier: CategoryTypeCell.reusableId)
         cv.backgroundColor = .clear
         cv.delegate = self
@@ -84,11 +94,17 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
         return cv
     }()
     @objc func saveFolder(){
-        viewModel.addFolder(category: selectedCategory, heading: folderTextField.text!) {
-           
+        if selectedCategory.isEmpty{
+            self.presentAlertError(title: "Sorry", message: "You cannot create a folder without a category. Select a type of category")
         }
-        dismiss(animated: true, completion: nil)
-        delegate?.saveFolder(isSaved: true)
+        else{
+            viewModel.addFolder(category: selectedCategory, heading: folderTextField.text!) {
+                
+            }
+            dismiss(animated: true, completion: nil)
+            delegate?.saveFolder(isSaved: true)
+        }
+       
     }
     func setupViews(){
         view.addSubview(folderTextField)
@@ -198,17 +214,17 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let item = categories[indexPath.row]
-//        let width = self.estimatedFrame(text: item.title, font: UIFont(name: Font.medium.rawValue, size: 14)!).width
+//        let _ = self.estimatedFrame(text: item.title, font: UIFont(name: Font.medium.rawValue, size: 14)!).width
         let itemSize = item.title.size(withAttributes: [NSAttributedString.Key.font:UIFont(name: Font.medium.rawValue, size: 14)!])
         return CGSize(width: itemSize.width, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 10
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 55
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -251,7 +267,7 @@ extension AddFolderVC {
         navbarItem.title = "Create a folder"
         
         let exitButton = UIButton(frame: .zero)
-        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .bold)), for: .normal)
+        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8, weight: .semibold)), for: .normal)
         exitButton.tintColor = Color.dark
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
@@ -264,8 +280,8 @@ extension AddFolderVC {
 
         
         NSLayoutConstraint.activate([
-            exitButton.heightAnchor.constraint(equalToConstant: 24.0),
-            exitButton.widthAnchor.constraint(equalToConstant: 24.0),
+            exitButton.heightAnchor.constraint(equalToConstant: 18.0),
+            exitButton.widthAnchor.constraint(equalToConstant: 18.0),
             
             navbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0),
             navbar.heightAnchor.constraint(equalToConstant: 50.0),
