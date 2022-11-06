@@ -111,7 +111,7 @@ class EditFolderVC: UIViewController, UINavigationBarDelegate {
         let filteredData = categories.filter { item in
             item.title == folder?.category
         }
-        print("filteredData: \(filteredData)")
+//        print("filteredData: \(filteredData)")
         if filteredData.count == 1 {
             for item in filteredData {
                 return item.title
@@ -172,7 +172,7 @@ extension EditFolderVC {
         navbarItem.title = "Update folder"
         
         let exitButton = UIButton(frame: .zero)
-        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .bold)), for: .normal)
+        exitButton.setBackgroundImage(UIImage(systemName: "xmark",withConfiguration: UIImage.SymbolConfiguration(pointSize: 8,weight: .semibold)), for: .normal)
         exitButton.tintColor = Color.dark
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.addTarget(self, action: #selector(closeVC), for: .touchUpInside)
@@ -185,8 +185,8 @@ extension EditFolderVC {
 
         
         NSLayoutConstraint.activate([
-            exitButton.heightAnchor.constraint(equalToConstant: 24.0),
-            exitButton.widthAnchor.constraint(equalToConstant: 24.0),
+            exitButton.heightAnchor.constraint(equalToConstant: 18.0),
+            exitButton.widthAnchor.constraint(equalToConstant: 18.0),
             
             navbar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0),
             navbar.heightAnchor.constraint(equalToConstant: 50.0),
