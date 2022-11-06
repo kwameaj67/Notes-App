@@ -186,6 +186,16 @@ extension FolderVC:UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 215.0
     }
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        let cell = folderTableView.cellForRow(at: IndexPath(row: indexPath.row, section: 0)) as! FolderCell
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseIn) {
+         cell.transform = CGAffineTransform(scaleX: 0.95, y:0.95)
+        } completion: { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseIn, animations: {
+             cell.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }, completion:nil)
+        }
+    }
     
 }
 
@@ -218,7 +228,6 @@ extension FolderVC: UITableViewDataSource {
 
 extension FolderVC {
     func configureNavBar(){
-
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 24.0)!,NSAttributedString.Key.foregroundColor: Color.text_color_heading]
         self.navigationController?.navigationBar.prefersLargeTitles = true

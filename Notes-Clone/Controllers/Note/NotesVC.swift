@@ -207,7 +207,16 @@ extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         }
         didTapNoteCell(note: noteObject)
     }
-    
+    func collectionView(_ collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath) {
+        let cell = notesCollectionView.cellForItem(at: IndexPath(row: indexPath.row, section: 0)) as! NoteCollectionCell
+        UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseIn) {
+         cell.transform = CGAffineTransform(scaleX: 0.95, y:0.95)
+        } completion: { (_) in
+            UIView.animate(withDuration: 0.5, delay: 0.2, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.2, options: .curveEaseIn, animations: {
+             cell.transform = CGAffineTransform(scaleX: 1, y: 1)
+            }, completion:nil)
+        }
+    }
    
 }
 extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
