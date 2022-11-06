@@ -66,19 +66,19 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
    
     
     lazy var categoryCollectionView: UICollectionView = {
-//        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-//        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
-//        layout.scrollDirection = .horizontal
-//        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
-//        cv.setCollectionViewLayout(layout, animated: false)
-        let layout = AlignedCollectionViewFlowLayout(horizontalAlignment: .left, verticalAlignment: .top)
-        layout.scrollDirection = .horizontal
+        let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
+        layout.scrollDirection = .horizontal
+        layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
+        cv.setCollectionViewLayout(layout, animated: false)
+//        let layout = AlignedCollectionViewFlowLayout(horizontalAlignment: .left, verticalAlignment: .top)
+//        layout.scrollDirection = .horizontal
+//        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
 //        layout.estimatedItemSize = CGSize(width: 50, height: 24)
-        layout.minimumLineSpacing = 10
-        layout.minimumInteritemSpacing = 50
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+//        layout.minimumLineSpacing = 10
+//        layout.minimumInteritemSpacing = 50
+//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
 //        cv.setCollectionViewLayout(layout, animated: false)
         cv.register(CategoryTypeCell.self, forCellWithReuseIdentifier: CategoryTypeCell.reusableId)
         cv.backgroundColor = .clear
@@ -220,11 +220,11 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        return 10
+        return 5
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 55
+        return 5
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

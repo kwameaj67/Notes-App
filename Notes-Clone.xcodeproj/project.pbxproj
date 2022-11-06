@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9829EE37291544CE004A0A4A /* AlignedCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9829EE36291544CE004A0A4A /* AlignedCollectionViewFlowLayout.swift */; };
+		9829EE3929159573004A0A4A /* UIViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9829EE3829159573004A0A4A /* UIViewController+Ext.swift */; };
 		9832040C28F59E1800B24A50 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832040B28F59E1800B24A50 /* MockData.swift */; };
 		9832040F28F59F1300B24A50 /* FolderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832040E28F59F1300B24A50 /* FolderCell.swift */; };
 		9832041628F701C000B24A50 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832041528F701C000B24A50 /* CoreDataManager.swift */; };
@@ -57,6 +59,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9829EE36291544CE004A0A4A /* AlignedCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlignedCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		9829EE3829159573004A0A4A /* UIViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Ext.swift"; sourceTree = "<group>"; };
 		9832040B28F59E1800B24A50 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		9832040E28F59F1300B24A50 /* FolderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderCell.swift; sourceTree = "<group>"; };
 		9832041528F701C000B24A50 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -195,6 +199,7 @@
 		98C29D5628F2E9CF0054F286 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				98A3DFF0290AAD1700D055F8 /* BottomSheetVC.swift */,
 				98C29D7628F2EE240054F286 /* Auth */,
 				98C29D6428F2EA870054F286 /* Note */,
 				98C29D6328F2EA820054F286 /* Folder */,
@@ -209,6 +214,7 @@
 				98C29D7F28F41B830054F286 /* NButton.swift */,
 				98C29D8A28F490F60054F286 /* PinImage.swift */,
 				987C271A2902BF2100A19A97 /* AddFloatingButton.swift */,
+				9829EE36291544CE004A0A4A /* AlignedCollectionViewFlowLayout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -242,6 +248,7 @@
 				9832044528F82E9D00B24A50 /* Date+Ext.swift */,
 				987C271E2906B72200A19A97 /* String+Ext.swift */,
 				98A3DFF4290AC00200D055F8 /* UIButton+Ext.swift */,
+				9829EE3829159573004A0A4A /* UIViewController+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -251,7 +258,6 @@
 			children = (
 				98C29D4628F2E9460054F286 /* FolderVC.swift */,
 				98C29D5D28F2EA300054F286 /* AddFolderVC.swift */,
-				98A3DFF0290AAD1700D055F8 /* BottomSheetVC.swift */,
 				98FC0F24290C7CC000158562 /* EditFolderVC.swift */,
 			);
 			path = Folder;
@@ -422,6 +428,8 @@
 				98C29D8628F43AB30054F286 /* NumberPadCell.swift in Sources */,
 				98C29D4528F2E9460054F286 /* SceneDelegate.swift in Sources */,
 				9832041928F70F0700B24A50 /* MyApp.xcdatamodeld in Sources */,
+				9829EE37291544CE004A0A4A /* AlignedCollectionViewFlowLayout.swift in Sources */,
+				9829EE3929159573004A0A4A /* UIViewController+Ext.swift in Sources */,
 				989A93BD28F98077007C0979 /* NoteService.swift in Sources */,
 				98A3DFF3290AB6C500D055F8 /* BottomSheetOptionCell.swift in Sources */,
 				9832044028F71BBD00B24A50 /* Folder+CoreDataClass.swift in Sources */,
