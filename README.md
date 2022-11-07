@@ -29,18 +29,18 @@ This project covers the following concepts
 
 
 # Snapshots
-<img align='left' src="Notes-Clone/Assets.xcassets/name.imageset/name.png"  width="250">
-<img align='left' src="Notes-Clone/Assets.xcassets/pin.imageset/pin.png"  width="250">
-<img src="Notes-Clone/Assets.xcassets/folder.imageset/folder.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/name.imageset/name.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/pin.imageset/pin.png"  width="250">
+<img src="NoteApp/Assets.xcassets/folder.imageset/folder.png"  width="250">
 
-<img align='left' src="Notes-Clone/Assets.xcassets/createFolder.imageset/createFolder.png"  width="250">
-<img align='left' src="Notes-Clone/Assets.xcassets/sheet1.imageset/sheet1.png"  width="250">
-<img src="Notes-Clone/Assets.xcassets/alert1.imageset/alert1.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/createFolder.imageset/createFolder.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/sheet1.imageset/sheet1.png"  width="250">
+<img src="NoteApp/Assets.xcassets/alert1.imageset/alert1.png"  width="250">
 
-<img align='left' src="Notes-Clone/Assets.xcassets/updateFolder.imageset/updateFolder.png"  width="250">
-<img align='left' src="Notes-Clone/Assets.xcassets/notes.imageset/notes.png"  width="250">
-<img src="Notes-Clone/Assets.xcassets/details.imageset/details.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/updateFolder.imageset/updateFolder.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/notes.imageset/notes.png"  width="250">
+<img src="NoteApp/Assets.xcassets/details.imageset/details.png"  width="250">
 
-<img align='left' src="Notes-Clone/Assets.xcassets/sheet2.imageset/sheet2.png"  width="250">
-<img align='left' src="Notes-Clone/Assets.xcassets/alert2.imageset/alert2.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/sheet2.imageset/sheet2.png"  width="250">
+<img align='left' src="NoteApp/Assets.xcassets/alert2.imageset/alert2.png"  width="250">
 
