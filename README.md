@@ -20,10 +20,12 @@ The application was built using:
 * User can update a folder
 * User can delete a folder with all its related notes
 * User can see all folders created
+* User can search for a folder
 
 * User can create short note
 * User can edit short note
 * User can delete short note
+* User can search for a short note
 
 
 # Screenshots
