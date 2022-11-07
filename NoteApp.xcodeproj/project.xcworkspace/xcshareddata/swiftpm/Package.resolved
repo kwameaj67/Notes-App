@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "BottomSheet",
+        "repositoryURL": "https://github.com/joomcode/BottomSheet",
+        "state": {
+          "branch": null,
+          "revision": "2397f22fa1828169dbb233a9ad9d83ed72b6a236",
+          "version": "2.0.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
