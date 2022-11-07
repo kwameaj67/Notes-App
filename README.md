@@ -13,7 +13,17 @@ The application was built using:
 * Protocol Delegation
 * Core Data
 
-### Functionality
+### Features
+* Users can create an account with his full name
+* User can set a pin to protect all notes and folders
+* User can create a folder
+* User can update a folder
+* User can delete a folder with all its related notes
+* User can see all folders created
+
+* User can create short note
+* User can edit short note
+* User can delete short note
 
 
 # Screenshots
