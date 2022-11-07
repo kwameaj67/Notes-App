@@ -20,6 +20,7 @@
 		9832044328F82B0600B24A50 /* FolderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044228F82B0600B24A50 /* FolderService.swift */; };
 		9832044628F82E9D00B24A50 /* Date+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044528F82E9D00B24A50 /* Date+Ext.swift */; };
 		9832044828F830DF00B24A50 /* FolderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9832044728F830DF00B24A50 /* FolderViewModel.swift */; };
+		983C4182291884580021FA0F /* Int+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 983C4181291884580021FA0F /* Int+Ext.swift */; };
 		987C271B2902BF2100A19A97 /* AddFloatingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271A2902BF2100A19A97 /* AddFloatingButton.swift */; };
 		987C271D2906B54200A19A97 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271C2906B54200A19A97 /* UserDefaultsManager.swift */; };
 		987C271F2906B72200A19A97 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 987C271E2906B72200A19A97 /* String+Ext.swift */; };
@@ -72,6 +73,7 @@
 		9832044228F82B0600B24A50 /* FolderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderService.swift; sourceTree = "<group>"; };
 		9832044528F82E9D00B24A50 /* Date+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Ext.swift"; sourceTree = "<group>"; };
 		9832044728F830DF00B24A50 /* FolderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FolderViewModel.swift; sourceTree = "<group>"; };
+		983C4181291884580021FA0F /* Int+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Ext.swift"; sourceTree = "<group>"; };
 		987C271A2902BF2100A19A97 /* AddFloatingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFloatingButton.swift; sourceTree = "<group>"; };
 		987C271C2906B54200A19A97 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		987C271E2906B72200A19A97 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
@@ -249,6 +251,7 @@
 				987C271E2906B72200A19A97 /* String+Ext.swift */,
 				98A3DFF4290AC00200D055F8 /* UIButton+Ext.swift */,
 				9829EE3829159573004A0A4A /* UIViewController+Ext.swift */,
+				983C4181291884580021FA0F /* Int+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				9832041928F70F0700B24A50 /* MyApp.xcdatamodeld in Sources */,
 				9829EE37291544CE004A0A4A /* AlignedCollectionViewFlowLayout.swift in Sources */,
 				9829EE3929159573004A0A4A /* UIViewController+Ext.swift in Sources */,
+				983C4182291884580021FA0F /* Int+Ext.swift in Sources */,
 				989A93BD28F98077007C0979 /* NoteService.swift in Sources */,
 				98A3DFF3290AB6C500D055F8 /* BottomSheetOptionCell.swift in Sources */,
 				9832044028F71BBD00B24A50 /* Folder+CoreDataClass.swift in Sources */,

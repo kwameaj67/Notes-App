@@ -51,12 +51,10 @@ class NotesVC: UIViewController {
         setupContraints()
         configureBackButton()
         toggleViews(data: self.notes)
-        getNotes()
-        
-       
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        getNotes()
         configureNavBar()
         configureSearchBar()
     }
@@ -160,7 +158,7 @@ class NotesVC: UIViewController {
             emptyLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             emptyLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
-            notesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            notesCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,constant: 0),
             notesCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor,constant: 4),
             notesCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor,constant: -4),
             notesCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -195,9 +193,10 @@ extension NotesVC: UICollectionViewDataSource, UICollectionViewDelegate, UIColle
         cell.delegate = self
         cell.controller = self
         cell.bodyLabel.setLineHeight(lineHeight: 1.4)
+        cell.bodyLabel.numberOfLines = (indexPath.row.checkValidCellNumber() != 0) ? 10 : 4
         return cell
     }
-    
+  
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let noteObject: Note
         if isSearching {
@@ -226,7 +225,7 @@ extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
     }
     
     
-    func deleteItem() {
+    func deleteItem() { // present the alert
         dismiss(animated: true, completion: nil)
         let alert = UIAlertController()
         self.presentAlertWarning(title: "Delete this note", message: "Are you really sure you want to delete this note?") { results in
@@ -254,9 +253,7 @@ extension NotesVC : NoteCellDelegate, BottomSheetItemDelegate  {
         // remove note from row & tableview
         notes.remove(at:  item.row)
         notesCollectionView.deleteItems(at: [notesIndexPath])
-        DispatchQueue.main.async {
-            self.notesCollectionView.reloadData()
-        }
+        getNotes()
     }
     func editItem() {
         dismiss(animated: true, completion: nil)
@@ -310,7 +307,7 @@ extension NotesVC {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 15.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 24.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.prefersLargeTitles = true
-             
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = true
@@ -330,14 +327,14 @@ extension NotesVC {
         searchBarController.searchBar.delegate = self
         searchBarController.delegate = self
         searchBarController.searchResultsUpdater = self
+        searchBarController.searchBar.barTintColor = Color.grey
         
         // searchbar properties
-        searchBar.layer.cornerRadius = 15
+        searchBar.layer.cornerRadius = 10
         searchBar.font = UIFont(name: Font.medium.rawValue, size: 16)
         searchBar.textColor = Color.text_color_heading
         searchBar.clipsToBounds = true
         searchBar.clearButtonMode = .whileEditing
-        searchBar.backgroundColor = Color.pad_bg
         searchBar.attributedPlaceholder = NSAttributedString(string: "Search notes", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
     }
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{

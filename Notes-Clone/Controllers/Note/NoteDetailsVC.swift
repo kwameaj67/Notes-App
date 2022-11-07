@@ -55,20 +55,22 @@ class NoteDetailsVC: UIViewController {
         setupViews()
         setupConstraints()
         configureBackButton()
-        
+        configureNavBar()
         disableButton()
         headingTextView.becomeFirstResponder()
         
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureNavBar()
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        
     }
     override func viewDidDisappear(_ animated: Bool) {
         headingTextView.text = ""
         bodyTextView.text = ""
         note = nil
-       
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
     }
     var mainScrollView : UIScrollView = {
         var sv = UIScrollView()
@@ -221,7 +223,7 @@ class NoteDetailsVC: UIViewController {
             
             saveBtn.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
             saveBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            saveBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            saveBtn.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -10),
             saveBtn.heightAnchor.constraint(equalToConstant: 52),
             
         ])
@@ -259,6 +261,7 @@ extension NoteDetailsVC {
         self.navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.semi_bold.rawValue, size: 16.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Font.bold.rawValue, size: 28.0)!,NSAttributedString.Key.foregroundColor: Color.dark]
         self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.navigationController?.navigationItem.largeTitleDisplayMode = .never
              
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -308,7 +311,7 @@ extension NoteDetailsVC: UITextViewDelegate {
 
 extension NoteDetailsVC {
     func textViewDidChangeSelection(_ textView: UITextView) {
-        guard let headingText = textView.text else { return }
+        guard let headingText = headingTextView.text else { return }
         if headingText.isEmpty {
             saveBtn.isUserInteractionEnabled = false
             UIView.animate(withDuration: 0.2) {
