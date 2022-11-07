@@ -37,7 +37,7 @@ The application was built using:
 
 <img align='left' src="Notes-Clone/Assets.xcassets/updateFolder.imageset/updateFolder.png"  width="250">
 <img align='left' src="Notes-Clone/Assets.xcassets/notes.imageset/notes.png"  width="250">
-<img src="Notes-Clone/Assets.xcassets/notesDetail.imageset/notesDetail.png"  width="250">
+<img src="Notes-Clone/Assets.xcassets/notesDetail.imageset/notesDetails.png"  width="250">
 
 <img align='left' src="Notes-Clone/Assets.xcassets/sheet2.imageset/sheet2.png"  width="250">
 <img align='left' src="Notes-Clone/Assets.xcassets/alert2.imageset/alert2.png"  width="250">
