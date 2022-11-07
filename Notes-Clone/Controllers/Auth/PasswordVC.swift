@@ -184,10 +184,16 @@ class PasswordVC: UIViewController {
     private func moveToFolderScreen(passcode: String){
         if passcode.count == 4{
             userDefaultManager.setUserLogIn()
-            let vc = FolderVC()
-            vc.modalPresentationStyle = .fullScreen
-            present(vc, animated: true, completion: nil)
+            let folderVC = FolderVC()
+            transitionToRootController(vc: folderVC)
         }
+    }
+    func transitionToRootController( vc: UIViewController){
+        if let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate,
+           let window = sceneDelegate.window {
+            window.rootViewController = UINavigationController(rootViewController: vc)
+            UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: nil, completion: nil)
+            }
     }
     private func styleActivePasscode(){
         switch limitCount {
