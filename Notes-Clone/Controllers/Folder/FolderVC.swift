@@ -38,6 +38,7 @@ class FolderVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Color.bg
+        configureNavBar()
         setupViews()
         setupContraints()
         getFolderData()
@@ -51,7 +52,6 @@ class FolderVC: UIViewController {
         configureNavBar()
         title = "My folders"
         navigationController?.navigationBar.isHidden = false
-        folderTableView.reloadData()
     }
    
     func getFolderData(){
@@ -249,12 +249,12 @@ extension FolderVC {
         navigationController?.navigationBar.tintColor = Color.dark
         
         let fullName = userDefaultManager.getUserFullName().getUserInitials()
-        let avatarView = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+        let avatarView = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         avatarView.backgroundColor = Color.dark
-        avatarView.layer.cornerRadius = 40/2
+        avatarView.layer.cornerRadius = 36/2
         avatarView.setTitle(fullName, for: .normal)
         avatarView.setTitleColor(.white, for: .normal)
-        avatarView.titleLabel?.font = UIFont(name: Font.semi_bold.rawValue, size: 18)
+        avatarView.titleLabel?.font = UIFont(name: Font.semi_bold.rawValue, size: 16)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: avatarView)
         
         let rightBarItem = UIBarButtonItem()
@@ -274,14 +274,14 @@ extension FolderVC {
         searchBarController.searchBar.delegate = self
         searchBarController.delegate = self
         searchBarController.searchResultsUpdater = self
+        searchBarController.searchBar.barTintColor = Color.grey
         
         // searchbar properties
-        searchBar.layer.cornerRadius = 15
+        searchBar.layer.cornerRadius = 10
         searchBar.font = UIFont(name: Font.medium.rawValue, size: 16)
         searchBar.textColor = Color.text_color_heading
         searchBar.clipsToBounds = true
         searchBar.clearButtonMode = .whileEditing
-        searchBar.backgroundColor = Color.pad_bg
         searchBar.attributedPlaceholder = NSAttributedString(string: "Search folders", attributes: [NSAttributedString.Key.foregroundColor: Color.text_color_normal,NSAttributedString.Key.font: UIFont(name: Font.regular.rawValue, size: 14)!])
     }
 }
