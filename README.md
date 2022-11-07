@@ -1,5 +1,6 @@
 # Notes-App
-Decided to learn more about Core data so this iOS application helps users create short notes as reminders and categorize them into folders.
+In this project, I decided to learn more about Core data so I created this iOS app to help users create short notes as reminders and categorize them into folders.
+This project uses some dependencies ( just a few eg BottomSheet).
 
 ### Note ⚙️
 The application was built using: 
@@ -12,23 +13,22 @@ The application was built using:
 * Programmatic UI
 * Protocol Delegation
 * Core Data
+* MVVM with Combine
+* Custom Collection view layout (Compositional Layout)
 
 ### Features
-* Users can create an account with his full name
+This project covers the following concepts
+* Users can create an account with  full name
 * User can set a pin to protect all notes and folders
-* User can create a folder
-* User can update a folder
-* User can delete a folder with all its related notes
+* User can create a folder, update a folder and delete a folder with all its related notes
 * User can see all folders created
 * User can search for a folder
 
-* User can create short note
-* User can edit short note
-* User can delete short note
-* User can search for a short note
+* User can create,edit and delete a short note
+* User can also search for a short note
 
 
-# Screenshots
+# Snapshots
 <img align='left' src="Notes-Clone/Assets.xcassets/name.imageset/name.png"  width="250">
 <img align='left' src="Notes-Clone/Assets.xcassets/pin.imageset/pin.png"  width="250">
 <img src="Notes-Clone/Assets.xcassets/folder.imageset/folder.png"  width="250">
@@ -39,7 +39,7 @@ The application was built using:
 
 <img align='left' src="Notes-Clone/Assets.xcassets/updateFolder.imageset/updateFolder.png"  width="250">
 <img align='left' src="Notes-Clone/Assets.xcassets/notes.imageset/notes.png"  width="250">
-<img src="Notes-Clone/Assets.xcassets/notesDetail.imageset/notesDetails.png"  width="250">
+<img src="Notes-Clone/Assets.xcassets/details.imageset/details.png"  width="250">
 
 <img align='left' src="Notes-Clone/Assets.xcassets/sheet2.imageset/sheet2.png"  width="250">
 <img align='left' src="Notes-Clone/Assets.xcassets/alert2.imageset/alert2.png"  width="250">
