@@ -52,7 +52,7 @@ struct CategoryType{
         CategoryType(title:"🔗 General Links"),
         CategoryType(title:"🏋🏽‍♀️ Workout"),
         CategoryType(title:"🎉 Birthdays"),
-        CategoryType(title: "⌛️ Government & Politics"),
+        CategoryType(title: "⌛️  Politics"),
         CategoryType(title:"⚽️ Football"),
         CategoryType(title:"💬 Popular Quotes"),
         CategoryType(title:"🔬 Research"),

@@ -69,17 +69,10 @@ class AddFolderVC: UIViewController, UINavigationBarDelegate, UITextFieldDelegat
         let layout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
         layout.scrollDirection = .horizontal
+        layout.sectionInsetReference = .fromSafeArea
         layout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
         let cv = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout.init())
         cv.setCollectionViewLayout(layout, animated: false)
-//        let layout = AlignedCollectionViewFlowLayout(horizontalAlignment: .left, verticalAlignment: .top)
-//        layout.scrollDirection = .horizontal
-//        layout.sectionInset = UIEdgeInsets(top: 10, left: 20, bottom: 15, right: 20)
-//        layout.estimatedItemSize = CGSize(width: 50, height: 24)
-//        layout.minimumLineSpacing = 10
-//        layout.minimumInteritemSpacing = 50
-//        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
-//        cv.setCollectionViewLayout(layout, animated: false)
         cv.register(CategoryTypeCell.self, forCellWithReuseIdentifier: CategoryTypeCell.reusableId)
         cv.backgroundColor = .clear
         cv.delegate = self
@@ -213,10 +206,7 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let item = categories[indexPath.row]
-//        let _ = self.estimatedFrame(text: item.title, font: UIFont(name: Font.medium.rawValue, size: 14)!).width
-        let itemSize = item.title.size(withAttributes: [NSAttributedString.Key.font:UIFont(name: Font.medium.rawValue, size: 14)!])
-        return CGSize(width: itemSize.width, height: 40)
+        return CGSize(width: 150, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -224,7 +214,7 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        return 5
+        return 15
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -232,14 +222,8 @@ extension AddFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UICo
         collectionView.layoutSubviews()
         let item = categories[indexPath.row]
         selectedCategory = item.title
-        print(item.title)
-
     }
-//    func estimatedFrame(text: String, font: UIFont) -> CGRect {
-//        let size = CGSize(width: 200, height: 1000) // temporary size
-//        let options = NSStringDrawingOptions.usesFontLeading.union(.usesLineFragmentOrigin)
-//        return NSString(string: text).boundingRect(with: size, options: options, attributes: [NSAttributedString.Key.font: font], context: nil)
-//    }
+   
     func setupAttributedText(_ title: String,_ subTitle: String) -> NSAttributedString{
         let text = NSMutableAttributedString(string: title, attributes: [.foregroundColor: Color.text_color_heading,.font: UIFont(name: Font.semi_bold.rawValue, size: 20)!])
         text.append(NSAttributedString(string: "\n\n\(subTitle)", attributes: [.foregroundColor: Color.text_color_normal,.font: UIFont(name: Font.medium.rawValue, size: 15)!]))

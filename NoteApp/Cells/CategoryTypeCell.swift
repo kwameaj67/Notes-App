@@ -57,8 +57,9 @@ class CategoryTypeCell: UICollectionViewCell {
     func setupContraints(){
         NSLayoutConstraint.activate([
             label.centerYAnchor.constraint(equalTo: centerYAnchor),
-            label.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 15),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -15),
+            label.centerXAnchor.constraint(equalTo: centerXAnchor),
+//            label.leadingAnchor.constraint(equalTo: leadingAnchor,constant: 15),
+//            label.trailingAnchor.constraint(equalTo: trailingAnchor,constant: -15),
         ])
     }
     

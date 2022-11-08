@@ -215,18 +215,12 @@ extension EditFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UIC
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CategoryTypeCell.reusableId, for: indexPath) as! CategoryTypeCell
         cell.data = categories[indexPath.row]
-//        if categories[indexPath.row].title == activeCategory {
-//            cell.layer.borderWidth =  1
-//            cell.layer.borderColor = Color.cell_dark_bg.cgColor
-//            cell.layer.backgroundColor = Color.red.cgColor
-//        }
+
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let item = categories[indexPath.row]
-        let itemSize = item.title.size(withAttributes: [NSAttributedString.Key.font:UIFont(name: Font.medium.rawValue, size: 14)!])
-        return CGSize(width: itemSize.width, height: 40)
+        return CGSize(width: 150, height: 40)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -234,7 +228,7 @@ extension EditFolderVC: UICollectionViewDelegate,UICollectionViewDataSource, UIC
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-    return 5
+    return 15
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
