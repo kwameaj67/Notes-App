@@ -38,7 +38,7 @@ class FolderService: FolderServiceProtocol {
     func deleteFolder(folder: Folder){
         do {
             context.delete(folder)
-            print("folder deleted")
+           // print("folder deleted")
             saveChanges()
         }
     }

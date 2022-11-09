@@ -12,7 +12,7 @@ protocol SaveNoteDelegate: AnyObject {
 }
 
 class NoteDetailsVC: UIViewController {
-    
+    var scrollViewHeight:  NSLayoutConstraint?
     let dateFormatter = DateFormatter()
     let starredBtn = UIButton(type: .system)
     var isStarredNote: Bool = false {

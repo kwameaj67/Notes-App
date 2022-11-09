@@ -21,12 +21,12 @@ class EditFolderVC: UIViewController, UINavigationBarDelegate {
     private var selectedCategory: String = "" {
         didSet{
             activeCategory = ""
-            print("selected category \(selectedCategory)")
+           // print("selected category \(selectedCategory)")
         }
     }
     private var activeCategory: String = "" {
         didSet{
-            print("active category \(activeCategory)")
+          //  print("active category \(activeCategory)")
         }
     }
     

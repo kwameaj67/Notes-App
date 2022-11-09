@@ -20,8 +20,8 @@ class FolderViewModel {
     }
     
     func addFolder(category:String,heading:String,completion: (() -> Void?) ){
-        let newFolder = folderType.createFolder(category: category, heading: heading)
-        print("\(newFolder.heading!)\n\(newFolder.category!)\n\(newFolder.createdAt!)")
+        let _ = folderType.createFolder(category: category, heading: heading)
+       // print("\(newFolder.heading!)\n\(newFolder.category!)\n\(newFolder.createdAt!)")
     }
     
     func getFolders(){
@@ -38,7 +38,7 @@ class FolderViewModel {
     }
     
     func updateFolder(folder: Folder, heading:String, category:String, lastUpdated:Date){
-       let updatedFolder = folderType.updateFolder(folder: folder, heading: heading, category: category, lastUpdated: lastUpdated)
-        print("\(updatedFolder.heading!)\n\(updatedFolder.category!)\n\(updatedFolder.lastUpdated!)")
+       let _ = folderType.updateFolder(folder: folder, heading: heading, category: category, lastUpdated: lastUpdated)
+       // print("\(updatedFolder.heading!)\n\(updatedFolder.category!)\n\(updatedFolder.lastUpdated!)")
     }
 }

@@ -25,8 +25,8 @@ class NoteViewModel {
     }
     
     func updateNote(note: Note, heading:String, body:String, lastUpdated:Date){
-       let updateNote = noteType.updateNote(note: note, heading: heading, body: body, lastUpdated: lastUpdated)
-        print("\(updateNote.heading!)\n\(updateNote.body!)\n\(updateNote.lastUpdated!)")
+       let _ = noteType.updateNote(note: note, heading: heading, body: body, lastUpdated: lastUpdated)
+       // print("\(updateNote.heading!)\n\(updateNote.body!)\n\(updateNote.lastUpdated!)")
     }
     func starNote(folder: Folder, isStarred: Bool){
 

@@ -33,7 +33,7 @@ class NoteService: NoteServiceProtocol {
     func deleteNote(note: Note){
         do {
             context.delete(note)
-            print("note deleted")
+          //  print("note deleted")
             saveChanges()
         }
     }

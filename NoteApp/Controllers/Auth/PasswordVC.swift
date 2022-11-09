@@ -282,7 +282,7 @@ extension PasswordVC: UICollectionViewDelegate, UICollectionViewDataSource, UICo
                 limitCount = limitCount + 1
                 if let number = item.name{
                     addNumber(number: number)
-                    print("Passcode: \(passCode)  LimitCount: \(limitCount)")
+                  //  print("Passcode: \(passCode)  LimitCount: \(limitCount)")
                     styleActivePasscode()
                 }
             }
