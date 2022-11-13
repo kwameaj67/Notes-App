@@ -18,13 +18,13 @@ The application was built using:
 
 ### Features
 This project covers the following concepts
-* Users can create an account with  full name
+* Users can create an account with their full name
 * User can set a pin to protect all notes and folders [incomplete]
 * User can create a folder, update a folder and delete a folder with all its related notes
 * User can see all folders created
 * User can search for a folder
 
-* User can create,edit and delete a short note
+* User can create, edit and delete a short note
 * User can also search for a short note
 
 
