@@ -345,7 +345,7 @@ extension FolderVC: SaveFolderDelegate, UpdateFolderDelegate {
     
     func updatedFolder(isSaved: Bool) {
         if isSaved{
-            getFolderData()
+            folderTableView.reloadData()
         }
     }
     
